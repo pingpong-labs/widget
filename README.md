@@ -40,6 +40,14 @@ First, register your widget on `app/widget.php` file.
     return View::make('headine', compact('posts'));
   });
   
+  
+  // calling Controller on widget
+  Widget::register('widgetController', function(){
+    $controller = new SiteController();
+    $homepage = $controller->index();
+    return View::make('sites.index', compact('homepage'));
+  });
+  
   ```
   
 Call just write :
