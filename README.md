@@ -47,8 +47,36 @@ First, register your widget on `app/widget.php` file.
     $homepage = $controller->index();
     return View::make('sites.index', compact('homepage'));
   });
-  
   ```
+  
+Before use the widget, you can see all registered widget using this code.
+
+```php
+  Widget::all() // return array of all widgets
+  
+  // or you can 
+  Widget::all(TRUE); // for print all widgets 
+```
+
+if you call `Widget::all(TRUE)` , you can see the result like this:
+
+```html
+Array(
+  [timeline] => Array
+        (
+            [name] => timeline
+            [action] => Closure Object
+                (
+                    [this] => Pingpong\Widget\WidgetServiceProvider Object
+                    (
+                    ......
+                    ........
+                    )
+                )
+        )
+)
+```
+  
   
 Call just write :
   
@@ -68,8 +96,8 @@ On view
   // type 2
   {{ Widget::get('newsfeed') }}
   ```
-  
+
 Developer
 --------
 [Gravitano](https://github.com/gravitano)
-
+[See next update]
