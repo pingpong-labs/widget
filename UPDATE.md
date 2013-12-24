@@ -22,9 +22,6 @@ Widget::group('sidebar', function(){
     
 });
 
-// Eloquent Widget
-Widget::model('Post:all')
-WIdget::model('Post:latest', $fields = array());
 ```
 
 Calling widget:
