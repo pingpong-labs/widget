@@ -100,4 +100,3 @@ On view
 Developer
 --------
 [Gravitano](https://github.com/gravitano)
-[See next update]
