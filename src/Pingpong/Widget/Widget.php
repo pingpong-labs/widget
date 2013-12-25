@@ -1,6 +1,5 @@
 <?php namespace Pingpong\Widget;
 
-<<<<<<< HEAD
 use Blade;
 use Closure;
 
@@ -20,16 +19,6 @@ class Widget
 	 *------------------------------------------------------------
 	 *
 	 */
-=======
-class Widget
-{
-	protected $w;
-
-	function __construct() {
-		
-	}
-
->>>>>>> c627336698cc7e03f59b37c65525bcaeabd30783
 	public function all($dump = FALSE)
 	{
 		$w = $this->w;
@@ -43,7 +32,6 @@ class Widget
 		return $w;
 	}
 
-<<<<<<< HEAD
 	/**
 	 *------------------------------------------------------------
 	 * Registering new widget
@@ -57,15 +45,10 @@ class Widget
 		// get new name 
 		$name = count($en) == 2 ? $en[1] : $name;
 		// register new widget
-=======
-	public function register($name, $action)
-	{	
->>>>>>> c627336698cc7e03f59b37c65525bcaeabd30783
 		$this->w[$name] = array(
 			'name'		=>	$name,
 			'action'	=>	$action
 		);
-<<<<<<< HEAD
 
 		// registering shortcode on view 
 		if(count($en) == 2){
@@ -90,7 +73,7 @@ class Widget
 	 *------------------------------------------------------------
 	 *
 	 */
-	public function get($name, $params = array())
+	public function get($name)
 	{
 		$wparams = array();
 		$exp = explode('/', $name);
@@ -127,49 +110,25 @@ class Widget
 	 *------------------------------------------------------------
 	 *
 	 */
-=======
-	}
-
-	public function get($name)
-	{
-		if(isset($this->w[$name]))
-		{
-			$w = $this->w[$name];
-			$action = $w['action'];
-			if(is_callable($action))
-			{
-				return call_user_func($action);
-			}
-			return $action;
-		}
-		return 'Undefined widget "'. $name.'".';
-	}
-
->>>>>>> c627336698cc7e03f59b37c65525bcaeabd30783
 	public function has($name)
 	{
 		return isset($this->w[$name]);
 	}
 
-<<<<<<< HEAD
 	/**
 	 *------------------------------------------------------------
 	 * Magic method call
 	 *------------------------------------------------------------
 	 *
 	 */
-=======
->>>>>>> c627336698cc7e03f59b37c65525bcaeabd30783
 	public function __call($method, $args = array())
-	{		
+	{
 		if($this->has($method))
 		{
-			return $this->get($method);
+			$widget = $method.'/'.implode('/', $args);
+			return $this->get($widget);
 		}
 		return 'Call : Undefined widget "'.$method.'"';
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> c627336698cc7e03f59b37c65525bcaeabd30783
 }
