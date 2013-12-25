@@ -131,8 +131,4 @@ class Widget
 		return 'Call : Undefined widget "'.$method.'"';
 	}
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 876fa9d7848742789632a41e6461004b86245880
