@@ -49,7 +49,14 @@ class WidgetServiceProvider extends ServiceProvider {
 				throw new Exception("Widget file not found!");
 			}
 		});
+<<<<<<< HEAD
 		include __DIR__.'/../../routes.php';
+=======
+<<<<<<< HEAD
+		include __DIR__.'/../../routes.php';
+=======
+>>>>>>> c627336698cc7e03f59b37c65525bcaeabd30783
+>>>>>>> 876fa9d7848742789632a41e6461004b86245880
 	}
 
 	/**
