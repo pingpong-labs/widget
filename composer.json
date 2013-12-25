@@ -1,7 +1,7 @@
 {
     "name": "pingpong/widget",
     "description": "Laravel 4 - Simple Widget System",
-    "keywords": ["widget", "laravel"],
+    "keywords": ["widget", "laravel", "pingpong"],
     "license": "The MIT License (MIT)",
     "authors": [
         {
