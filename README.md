@@ -166,3 +166,7 @@ On this widget i put `routes.php` file on your Laravel App.This is use for valid
 Developer
 --------
 [Gravitano](https://github.com/gravitano)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 876fa9d7848742789632a41e6461004b86245880
