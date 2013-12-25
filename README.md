@@ -40,8 +40,49 @@ First, register your widget on `app/widget.php` file.
     return View::make('headine', compact('posts'));
   });
   
+<<<<<<< HEAD
   ```
   
+=======
+  
+  // calling Controller on widget
+  Widget::register('widgetController', function(){
+    $controller = new SiteController();
+    $homepage = $controller->index();
+    return View::make('sites.index', compact('homepage'));
+  });
+  ```
+  
+Before use the widget, you can see all registered widget using this code.
+
+```php
+  Widget::all() // return array of all widgets
+  
+  // or you can 
+  Widget::all(TRUE); // for print all widgets 
+```
+
+if you call `Widget::all(TRUE)` , you can see the result like this:
+
+```html
+Array(
+  [timeline] => Array
+        (
+            [name] => timeline
+            [action] => Closure Object
+                (
+                    [this] => Pingpong\Widget\WidgetServiceProvider Object
+                    (
+                    ......
+                    ........
+                    )
+                )
+        )
+)
+```
+  
+  
+>>>>>>> c627336698cc7e03f59b37c65525bcaeabd30783
 Call just write :
   
   ```php
@@ -60,8 +101,15 @@ On view
   // type 2
   {{ Widget::get('newsfeed') }}
   ```
+<<<<<<< HEAD
   
 Developer
 --------
 [Gravitano](https://github.com/gravitano)
 
+=======
+
+Developer
+--------
+[Gravitano](https://github.com/gravitano)
+>>>>>>> c627336698cc7e03f59b37c65525bcaeabd30783
