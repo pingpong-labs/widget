@@ -2,7 +2,9 @@
     "name": "pingpong/widget",
     "description": "Laravel 4 - Simple Widget System",
     "keywords": ["widget", "laravel", "pingpong"],
+    "homepage": "https://github.com/gravitano/widget",
     "license": "The MIT License (MIT)",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "PiNGPONG Labs",
@@ -16,11 +18,6 @@
         "psr-0": {
             "Pingpong\\Widget": "src/"
         }
-    },
-    "extra": {
-            "branch-alias": {
-                    "dev-master": "1.0.*@dev"
-            }
     },
     "minimum-stability": "dev"
 }
