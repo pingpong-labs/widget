@@ -6,7 +6,7 @@ Simple widget system for create awesome feature on blade templating Laravel 4.*
 Installation
 ------------
 
-1. Open your `composer.json` file and add new require `"pingpong/widget": "dev-master"`
+1. Open your `composer.json` file and add new require `"pingpong/widget": "1.0.0"`
 2. Next, open your terminal and run `composer update`
 3. After composer updated, create new file named `widget.php` on `[laravel-folder]/app/` folder.
 4. Next, add new service provider on service provider array :
