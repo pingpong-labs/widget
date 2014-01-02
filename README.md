@@ -44,7 +44,7 @@ Example
   });
   
   ```
-  Widget with parameters.
+  Widget with parameter.
   -------------
   If you want to registering widget with some parameter, you can register it like below:
   
