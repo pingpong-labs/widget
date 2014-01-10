@@ -1,16 +1,19 @@
 #Registering your widget
 ----------------------------------
 
+Simple Widget :
 ```php
 
-//general
 Widget::register('awesome', function(){
 
 	return View::make('awesome');
 
 });
+```
+Widgets with one or more parameters:
 
-// widget with parameters
+```php
+
 Widget::register('hello', function($name){
 
 	return "Hello, $name !";
@@ -23,7 +26,13 @@ Widget::register('box', function($title, $description){
 
 });
 
-// one again a simple example
+```
+
+Widget grouping of widgets that have previously been defined.
+
+```php
+
+// First, you must registering one or more widget
 
 Widget::register('categories', function(){
 	return View::make('widgets.categories');
@@ -33,14 +42,9 @@ Widget::register('latestPost', function(){
 	return View::make('widgets.latestPost');
 });
 
-// Grouping widget
-// Widget::group($name, Array $widgets);
+// Next, you can group some widgets like this:
+
 Widget::group('sidebar', array('categories', 'latestPost'));
-
-// Grouping widget have parameters
-Widget::group('footer', array('hello', 'box'));
-
-
 
 ```
 
@@ -59,7 +63,7 @@ Widget::box('Latest News', 'This is a description of latest news');
 // Widget::$name();
 Widget::sidebar();
 
-// calling widget group have parameters just like below
+// calling widget group which parameters just like below
 // Widget::$name($params1, $params2, $params3, ....);
 Widget::sidebar(array('name'), array('My Tweets', '.....Latest Tweets'));
 
