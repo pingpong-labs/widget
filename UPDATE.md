@@ -46,6 +46,8 @@ Widget::register('latestPost', function(){
 
 Widget::group('sidebar', array('categories', 'latestPost'));
 
+Widget::group('footer', array('hello', 'box'));
+
 ```
 
 #Calling your widget 
@@ -65,6 +67,6 @@ Widget::sidebar();
 
 // calling widget group which parameters just like below
 // Widget::$name($params1, $params2, $params3, ....);
-Widget::sidebar(array('name'), array('My Tweets', '.....Latest Tweets'));
+Widget::box(array('name'), array('My Tweets', '.....Latest Tweets'));
 
 ```
