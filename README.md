@@ -96,7 +96,7 @@ Widget::sidebar();
 Widget::box(array('name'), array('My Tweets', '.....Latest Tweets'));
 
 ```
-on View :
+simple calling widget on view :
 
 ```php
 
@@ -111,4 +111,16 @@ on View :
 @box(array('name'), array('My Tweets', '.....Latest Tweets'))
 
 ```
+#Changes 
 
+Version 1.0.0
+----------
+
+- Adding new features. Widgets :: group. Group is used to group some widgets like the widget to the sidebar, footer or other.
+- Removing the slash as a differentiator parameter, and replace it with an array of features and / or coma, like calling php function generally.
+- Adding a new class WidgetException.
+- Changing the structure becomes more flexible.
+
+#Developer
+
+[Gravitano](https://github.com/gravitano)
