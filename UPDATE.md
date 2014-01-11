@@ -53,6 +53,7 @@ Widget::group('footer', array('hello', 'box'));
 #Calling your widget 
 ---------------------------------
 
+Generally calling the widget just like below:
 ```php
 
 Widget::awesome();
@@ -68,5 +69,20 @@ Widget::sidebar();
 // calling widget group which parameters just like below
 // Widget::$name($params1, $params2, $params3, ....);
 Widget::box(array('name'), array('My Tweets', '.....Latest Tweets'));
+
+```
+OR View :
+
+```php
+
+@awesome
+
+@hello('John')
+
+//calling group widget
+
+@sidebar()
+
+@box(array('name'), array('My Tweets', '.....Latest Tweets'))
 
 ```
