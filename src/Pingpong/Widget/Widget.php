@@ -1,134 +1,212 @@
-<?php namespace Pingpong\Widget;
+<?php
+
+namespace Pingpong\Widget;
 
 use Blade;
 use Closure;
+use Pingpong\Widget\WidgetException as Exception;
+use Str;
+use ReflectionFunction;
 
 class Widget
 {
-	/**
-	 *------------------------------------------------------------
-	 * Private the object 'w' as widgets
-	 *------------------------------------------------------------
-	 *
+	/*
+	 |-------------------------------------------------------------------
+	 |	Property widgets
+	 |-------------------------------------------------------------------
+	 |	Here is all widgets is registered
+	 |
 	 */
-	private $w;
+	protected $widgets  = array();;
 
-	/**
-	 *------------------------------------------------------------
-	 * Show all widget, with or without dump
-	 *------------------------------------------------------------
-	 *
+	/*
+	 |-------------------------------------------------------------------
+	 |	property grouping the widgets
+	 |-------------------------------------------------------------------
+	 |	Here is all group of widgets is registered
+	 |
 	 */
-	public function all($dump = FALSE)
+	protected $groups = array();
+
+	/*
+	 |-------------------------------------------------------------------
+	 |	All widgets
+	 |-------------------------------------------------------------------
+	 |	returning all registered widgets
+	 |
+	 */
+	public function all()
 	{
-		$w = $this->w;
-		if($dump === true)
-		{
-			echo "<pre>";
-			print_r($w);
-			echo "</pre>";
-			return;
-		}
-		return $w;
+		return $this->widgets;
 	}
 
-	/**
-	 *------------------------------------------------------------
-	 * Registering new widget
-	 *------------------------------------------------------------
-	 *
+	/*
+	 |-------------------------------------------------------------------
+	 |	All widget groups
+	 |-------------------------------------------------------------------
+	 |	returning all registered widget groups
+	 |
 	 */
-	public function register($name, $action)
-	{		
-		// explode 
-		$en = explode(":", $name);
-		// get new name 
-		$name = count($en) == 2 ? $en[1] : $name;
-		// register new widget
-		$this->w[$name] = array(
-			'name'		=>	$name,
-			'action'	=>	$action
+	public function groups()
+	{
+		return $this->groups;
+	}
+
+	/*
+	 |-------------------------------------------------------------------
+	 |	Grouping the widgets
+	 |-------------------------------------------------------------------
+	 |	Here is you can grouping the widget like Sidebar, Footer or other
+	 |
+	 */
+	public function group($name, $widgets = array())
+	{
+		$this->groups[$name] = $widgets;
+
+		Blade::extend(function($view) use($name){
+			return preg_replace("/@$name\((.*)\)/", "<?php echo Widget::$name($1); ?>", $view);
+		});		
+	}
+
+	/*
+	 |-------------------------------------------------------------------
+	 |	Registering the widget
+	 |-------------------------------------------------------------------
+	 |	Here is method for registering new widget
+	 |
+	 */
+	public function register($name, Closure $callback)
+	{
+		$this->widgets[$name] 	= array(
+			'name'		=>	Str::slug($name, "_"),
+			'callback'	=>	$callback
 		);
 
-		// registering shortcode on view 
-		if(count($en) == 2){
-			Blade::extend(function ($view) use ($name) {
-				$replacement = "<?php
-					echo Widget::get('$name/$1');
-				?>";
-				return preg_replace("/\[$name:(.*?)]/", $replacement, $view);
-			});		
-		}else{
-			Blade::extend(function ($view) use ($name) {
-				$html = Widget::get($name);
-				return str_replace("@$name", $html, $view);
-			});		
+		if($this->hasParams($callback))
+		{
+			Blade::extend(function($view) use($name){
+				return preg_replace("/@$name(.*)/", "<?php echo Widget::$name$1; ?>", $view);
+			});
+		}else
+		{
+			Blade::extend(function($view) use($name){
+				return preg_replace("/@$name/", "<?php echo Widget::$name(); ?>", $view);
+			});			
 		}
-		return;
+		return $this->widgets[$name];
 	}
 
-	/**
-	 *------------------------------------------------------------
-	 * Get widget
-	 *------------------------------------------------------------
-	 *
-	 */
-	public function get($name)
-	{
-		$wparams = array();
-		$exp = explode('/', $name);
-		
-		if(count($exp) > 1)
-		{
-			$wname 		= $exp[0];
-			$exp = array_except($exp, 0);
-			if(count($exp) > 0){
-				foreach ($exp as $v) {
-					$wparams[] = $v;
-				}
-			}
-		}else{
-			$wname = $name;
-		}	
-
-		if(isset($this->w[$wname]))
-		{
-			$w = $this->w[$wname];
-			$action = $w['action'];
-			if($action instanceof Closure)
-			{
-				return call_user_func_array($action, $wparams);
-			}
-			return $action;
-		}
-		return 'Undefined widget "'. $wname.'".';
-	}
-
-	/**
-	 *------------------------------------------------------------
-	 * isset ?
-	 *------------------------------------------------------------
-	 *
+	/*
+	 |-------------------------------------------------------------------
+	 |	is there a widget ?
+	 |-------------------------------------------------------------------
+	 |	return TRUE if widget is defined and otherwise.
+	 |
 	 */
 	public function has($name)
 	{
-		return isset($this->w[$name]);
+		return isset($this->widgets[$name]);
 	}
 
-	/**
-	 *------------------------------------------------------------
-	 * Magic method call
-	 *------------------------------------------------------------
-	 *
+	/*
+	 |-------------------------------------------------------------------
+	 |	is specific widget group defined ?
+	 |-------------------------------------------------------------------
+	 |	return TRUE if widget group is defined and otherwise.
+	 |
+	 */
+	public function hasGroup($group)
+	{
+		return isset($this->groups[$group]);
+	}
+
+	/*
+	 |-------------------------------------------------------------------
+	 |	is widget has a parameter?
+	 |-------------------------------------------------------------------
+	 |	return TRUE if widget is has parameter and otherwise.
+	 |
+	 */
+	public function hasParams(Closure $callback)
+	{
+		$rf = new ReflectionFunction($callback);
+		$params =  $rf->getParameters();
+		return ! empty($params);
+	}
+	
+
+	/*
+	 |-------------------------------------------------------------------
+	 |	Getting the widget
+	 |-------------------------------------------------------------------
+	 |	Here is method for get the widget
+	 |
+	 */
+	public function get($name, $params = array())
+	{
+		if($this->hasGroup($name))
+		{
+			return $this->callGroup($name, $params);
+		}elseif($this->has($name))
+		{
+			return $this->callWidget($name, $params);
+		}		
+	}
+
+	/*
+	 |-------------------------------------------------------------------
+	 |	Calling the widget
+	 |-------------------------------------------------------------------
+	 |	Here is method for calling the widget
+	 |
+	 */
+	protected function callWidget($name, $params = array())
+	{
+		if( ! $this->has($name)) throw new Exception("Widget [$name] does not exists!");
+
+		$callback = $this->widgets[$name]['callback'];
+		if(is_string($callback))
+		{
+			return $callback;
+		}elseif ($callback instanceof Closure)
+		{
+			return call_user_func_array($callback, $params);
+		}else
+		{
+			throw new Exception("Callback for widget [$name] is not supported!");
+		}
+	}
+
+	/*
+	 |-------------------------------------------------------------------
+	 |	Calling group widget
+	 |-------------------------------------------------------------------
+	 |	Here is method for group widget
+	 |
+	 */
+	protected function callGroup($group, $params = array())
+	{
+		if( ! $this->hasGroup($group)) throw new Exception("Grouping widget [$group] does not exist");
+
+		$group = $this->groups[$group];
+		if(count($group) > 0)
+		{
+			foreach ($group as $key => $value) {
+				$args = isset($params[$key]) ? $params[$key] : array();
+				echo $this->callWidget($value, $args);
+			}
+		}
+	}
+
+	/*
+	 |-------------------------------------------------------------------
+	 |	Magic Method __call the widget
+	 |-------------------------------------------------------------------
+	 |	its allow for getting the widget by name using call method
+	 |
 	 */
 	public function __call($method, $args = array())
 	{
-		if($this->has($method))
-		{
-			$widget = $method.'/'.implode('/', $args);
-			return $this->get($widget);
-		}
-		return 'Call : Undefined widget "'.$method.'"';
+		return $this->get($method, $args);
 	}
-
 }
