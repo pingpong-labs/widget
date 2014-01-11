@@ -40,7 +40,7 @@ class WidgetServiceProvider extends ServiceProvider {
 			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
 			$loader->alias('Widget', 'Pingpong\Widget\Facades\Widget');
 
-			$widgetFile = app_path('widget.php');
+			$widgetFile = app_path('widgets.php');
 			if(file_exists($widgetFile))
 			{
 				include $widgetFile;
