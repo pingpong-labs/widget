@@ -17,7 +17,7 @@ class Widget
 	 |	Here is all widgets is registered
 	 |
 	 */
-	protected $widgets  = array();;
+	protected $widgets  = array();
 
 	/*
 	 |-------------------------------------------------------------------
