@@ -3,7 +3,7 @@
 namespace Pingpong\Widget;
 
 use Illuminate\Support\ServiceProvider;
-use Exception;
+use Pingpong\Widget\WidgetException as Exception;
 
 class WidgetServiceProvider extends ServiceProvider {
 
@@ -49,7 +49,6 @@ class WidgetServiceProvider extends ServiceProvider {
 				throw new Exception("Widget file not found!");
 			}
 		});
-		include __DIR__.'/../../routes.php';
 	}
 
 	/**
