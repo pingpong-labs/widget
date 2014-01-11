@@ -71,7 +71,7 @@ Widget::sidebar();
 Widget::box(array('name'), array('My Tweets', '.....Latest Tweets'));
 
 ```
-OR View :
+on View :
 
 ```php
 
