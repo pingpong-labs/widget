@@ -8,7 +8,7 @@ Installation
 
 1. Open your `composer.json` file and add new require `"pingpong/widget": "dev-master"`
 2. Next, open your terminal and run `composer update`
-3. After composer updated, create new file named `widget.php` on `[laravel-folder]/app/` folder.
+3. After composer updated, create new file named `widgets.php` on `[laravel-folder]/app/` folder.
 4. Next, add new service provider on service provider array :
   
     ```php
