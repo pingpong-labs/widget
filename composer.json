@@ -2,7 +2,7 @@
     "name": "pingpong/widget",
     "description": "Laravel 4 - Simple Widget System",
     "keywords": ["widget", "laravel", "pingpong"],
-    "homepage": "https://github.com/gravitano/widget",
+    "homepage": "http://www.gravitano.com/simple-widget-system-for-laravel-4",
     "license": "The MIT License (MIT)",
     "version": "1.0.0",
     "authors": [
