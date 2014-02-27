@@ -113,7 +113,7 @@ simple calling widget on view :
 ```
 #Changes 
 
-Version 1.0.0
+Version 1.0
 ----------
 
 - Adding new features. Widgets :: group. Group is used to group some widgets like the widget to the sidebar, footer or other.
