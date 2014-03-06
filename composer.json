@@ -4,7 +4,7 @@
     "keywords": ["widget", "laravel", "pingpong"],
     "homepage": "http://www.gravitano.com/simple-widget-system-for-laravel-4",
     "license": "The MIT License (MIT)",
-    "version": "1.0",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "PiNGPONG Labs",
