@@ -1,63 +1,49 @@
-<?php
-
-namespace Pingpong\Widget;
+<?php namespace Pingpong\Widget;
 
 use Str;
 use Blade;
 use Closure;
-use Exception;
 use ReflectionFunction;
+use Pingpong\Widget\WidgetException as Exception;
 
 class Widget
 {
-	/*
-	 |-------------------------------------------------------------------
-	 |	Property widgets
-	 |-------------------------------------------------------------------
-	 |	Here is all widgets is registered
-	 |
+	/**
+	 * @var $widgets 
 	 */
 	protected $widgets  = array();
 
-	/*
-	 |-------------------------------------------------------------------
-	 |	property grouping the widgets
-	 |-------------------------------------------------------------------
-	 |	Here is all group of widgets is registered
-	 |
+	/**
+	 * @var $groups 
 	 */
 	protected $groups = array();
 
-	/*
-	 |-------------------------------------------------------------------
-	 |	All widgets
-	 |-------------------------------------------------------------------
-	 |	returning all registered widgets
-	 |
+	/**
+	 * Get all widgets.
+	 *
+	 * @return array
 	 */
 	public function all()
 	{
 		return $this->widgets;
 	}
 
-	/*
-	 |-------------------------------------------------------------------
-	 |	All widget groups
-	 |-------------------------------------------------------------------
-	 |	returning all registered widget groups
-	 |
+	/**
+	 * Get all widget groups.
+	 *
+	 * @return array
 	 */
 	public function groups()
 	{
 		return $this->groups;
 	}
 
-	/*
-	 |-------------------------------------------------------------------
-	 |	Grouping the widgets
-	 |-------------------------------------------------------------------
-	 |	Here is you can grouping the widget like Sidebar, Footer or other
-	 |
+	/**
+	 * Register new widget group.
+	 *
+	 * @param  string $name
+	 * @param  array  $widgets
+	 * @return void
 	 */
 	public function group($name, $widgets = array())
 	{
@@ -68,12 +54,12 @@ class Widget
 		});		
 	}
 
-	/*
-	 |-------------------------------------------------------------------
-	 |	Registering the widget
-	 |-------------------------------------------------------------------
-	 |	Here is method for registering new widget
-	 |
+	/**
+	 * Register new widget.
+	 *
+	 * @param  string   $name
+	 * @param  CLosure  $callback
+	 * @return void
 	 */
 	public function register($name, Closure $callback)
 	{
@@ -93,54 +79,50 @@ class Widget
 				return preg_replace("/@$name/", "<?php echo Widget::$name(); ?>", $view);
 			});			
 		}
-		return $this->widgets[$name];
+		return $this;
 	}
 
-	/*
-	 |-------------------------------------------------------------------
-	 |	is there a widget ?
-	 |-------------------------------------------------------------------
-	 |	return TRUE if widget is defined and otherwise.
-	 |
+	/**
+	 * Determine if widget exists.
+	 *
+	 * @param  string $name
+	 * @return boolean
 	 */
 	public function has($name)
 	{
 		return isset($this->widgets[$name]);
 	}
 
-	/*
-	 |-------------------------------------------------------------------
-	 |	is specific widget group defined ?
-	 |-------------------------------------------------------------------
-	 |	return TRUE if widget group is defined and otherwise.
-	 |
+	/**
+	 * Determine if widget group exists.
+	 *
+	 * @param  string $group.
+	 * @return boolean
 	 */
 	public function hasGroup($group)
 	{
 		return isset($this->groups[$group]);
 	}
 
-	/*
-	 |-------------------------------------------------------------------
-	 |	is widget has a parameter?
-	 |-------------------------------------------------------------------
-	 |	return TRUE if widget is has parameter and otherwise.
-	 |
+	/**
+	 * Determine if the closure have parameters.
+	 *
+	 * @param  Closure $callback
+	 * @return boolean
 	 */
-	public function hasParams(Closure $callback)
+	protected function hasParams(Closure $callback)
 	{
 		$rf = new ReflectionFunction($callback);
 		$params =  $rf->getParameters();
 		return ! empty($params);
 	}
 	
-
-	/*
-	 |-------------------------------------------------------------------
-	 |	Getting the widget
-	 |-------------------------------------------------------------------
-	 |	Here is method for get the widget
-	 |
+	/**
+	 * Get widget by given name.
+	 *
+	 * @param  string $name
+	 * @param  array  $params
+	 * @return mixed
 	 */
 	public function get($name, $params = array())
 	{
@@ -153,14 +135,14 @@ class Widget
 		}		
 	}
 
-	/*
-	 |-------------------------------------------------------------------
-	 |	Calling the widget
-	 |-------------------------------------------------------------------
-	 |	Here is method for calling the widget
-	 |
+	/**
+	 * Get widget group by given name.
+	 *
+	 * @param  string $name
+	 * @param  array  $params
+	 * @return mixed
 	 */
-	protected function callWidget($name, $params = array())
+	public function callWidget($name, $params = array())
 	{
 		if( ! $this->has($name)) throw new Exception("Widget [$name] does not exists!");
 
@@ -177,14 +159,14 @@ class Widget
 		}
 	}
 
-	/*
-	 |-------------------------------------------------------------------
-	 |	Calling group widget
-	 |-------------------------------------------------------------------
-	 |	Here is method for group widget
-	 |
+	/**
+	 * Get widget group by given name.
+	 *
+	 * @param  string $name
+	 * @param  array  $params
+	 * @return mixed
 	 */
-	protected function callGroup($group, $params = array())
+	public function callGroup($group, $params = array())
 	{
 		if( ! $this->hasGroup($group)) throw new Exception("Grouping widget [$group] does not exist");
 
@@ -198,12 +180,12 @@ class Widget
 		}
 	}
 
-	/*
-	 |-------------------------------------------------------------------
-	 |	Magic Method __call the widget
-	 |-------------------------------------------------------------------
-	 |	its allow for getting the widget by name using call method
-	 |
+	/**
+	 * Magic call widget and widget group.
+	 *
+	 * @param  string $method
+	 * @param  array  $args
+	 * @return mixed
 	 */
 	public function __call($method, $args = array())
 	{
