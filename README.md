@@ -3,7 +3,7 @@ Simple Widget System - Laravel 4.*
 
 Simple widget system for create awesome feature on blade templating Laravel 4
 
-### Installation
+## Installation
 Open your composer.json file, and add the new required package.
 
 ```
@@ -24,10 +24,9 @@ After the composer updated. Add new service provider in app/config/app.php.
 
 Done.
 
-### Example 
+## Example 
 
-Registering your widget
-----------------------------------
+### Registering your widget
 
 Simple Widget :
 ```php
@@ -78,8 +77,7 @@ Widget::group('footer', array('hello', 'box'));
 
 ```
 
-Calling your widget 
----------------------------------
+### Calling your widget 
 
 Globally calling the widget just like below:
 ```php
@@ -115,6 +113,6 @@ simple calling widget on view :
 
 ```
 
-### License
+## License
 
 This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
