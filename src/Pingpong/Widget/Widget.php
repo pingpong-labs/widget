@@ -2,10 +2,10 @@
 
 namespace Pingpong\Widget;
 
+use Str;
 use Blade;
 use Closure;
-use Pingpong\Widget\WidgetException as Exception;
-use Str;
+use Exception;
 use ReflectionFunction;
 
 class Widget

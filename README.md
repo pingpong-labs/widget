@@ -1,25 +1,30 @@
 Simple Widget System - Laravel 4.*
 ======
 
-Simple widget system for create awesome feature on blade templating Laravel 4.*
+Simple widget system for create awesome feature on blade templating Laravel 4
 
 Installation
-------------
+-
+### Installation
+Open your composer.json file, and add the new required package.
 
-1. Open your `composer.json` file and add new require `"pingpong/widget": "dev-master"`
-2. Next, open your terminal and run `composer update`
-3. After composer updated, create new file named `widgets.php` on `[laravel-folder]/app/` folder.
-4. Next, add new service provider on service provider array :
-  
-    ```php
-    'providers' => array(
-      //....
+```
+  "pingpong/widget": "1.0.0" 
+```
 
-      'Pingpong\Widget\WidgetServiceProvider'
-    )
-    ```
-    
-5. Finish
+Next, open a terminal and run.
+
+```
+  composer update 
+```
+
+After the composer updated. Add new service provider in app/config/app.php.
+
+```
+  'Pingpong\Widget\WidgetServiceProvider'
+```
+
+Done.
 
 # Example 
 
