@@ -3,6 +3,8 @@ Simple Widget System - Laravel 4.*
 
 Simple widget system for create awesome feature on blade templating Laravel 4
 
+[![Build Status](https://travis-ci.org/gravitano/widget.svg?branch=1.0.0)](https://travis-ci.org/gravitano/widget)
+
 ## Installation
 Open your composer.json file, and add the new required package.
 
