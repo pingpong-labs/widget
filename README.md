@@ -3,8 +3,6 @@ Simple Widget System - Laravel 4.*
 
 Simple widget system for create awesome feature on blade templating Laravel 4
 
-Installation
--
 ### Installation
 Open your composer.json file, and add the new required package.
 
@@ -26,7 +24,7 @@ After the composer updated. Add new service provider in app/config/app.php.
 
 Done.
 
-# Example 
+### Example 
 
 Registering your widget
 ----------------------------------
@@ -116,16 +114,7 @@ simple calling widget on view :
 @box(array('name'), array('My Tweets', '.....Latest Tweets'))
 
 ```
-#Changes 
 
-Version 1.0
-----------
+### License
 
-- Adding new features. Widgets :: group. Group is used to group some widgets like the widget to the sidebar, footer or other.
-- Removing the slash as a differentiator parameter, and replace it with an array of features and / or coma, like calling php function generally.
-- Adding a new class WidgetException.
-- Changing the structure becomes more flexible.
-
-#Developer
-
-[Gravitano](https://github.com/gravitano)
+This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

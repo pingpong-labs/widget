@@ -1,6 +1,4 @@
-<?php
-
-namespace Pingpong\Widget;
+<?php namespace Pingpong\Widget;
 
 use Illuminate\Support\ServiceProvider;
 use Pingpong\Widget\WidgetException as Exception;
