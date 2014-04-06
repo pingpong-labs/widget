@@ -10,7 +10,7 @@ Simple widget system for create awesome feature on blade templating Laravel 4
 Open your composer.json file, and add the new required package.
 
 ```
-  "pingpong/widget": "dev-master" 
+  "pingpong/widget": "1.0.*" 
 ```
 
 Next, open a terminal and run.
