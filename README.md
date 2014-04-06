@@ -30,7 +30,7 @@ Done.
 ## Example 
 
 ### Registering your widget
-To register your widget, simply create a file `widgets.php` in your `app` folder. Like this.
+To register your widget, simply create a file `widgets.php` in your `app` folder and put your widgets code in that file. Like this.
 
 ```
 laravel/
