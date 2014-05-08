@@ -1,0 +1,22 @@
+{
+    "name": "pingpong/menus",
+    "description": "Laravel 4 - Simple Menus",
+    "keywords": ["laravel", "menus", "pingpong"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "PiNGPONG LABS",
+            "email": "pingpong.labs@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pingpong\\Menus\\": "src/Pingpong"
+        }
+    },
+    "minimum-stability": "stable"
+}
