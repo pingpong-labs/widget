@@ -9,7 +9,7 @@ class Builder
 
 	protected $items = array();
 
-	protected $presenter = 'Acme\Menus\Presenters\Bootstrap\NavbarPresenter';
+	protected $presenter = 'Pingpong\Menus\Presenters\Bootstrap\NavbarPresenter';
 
 	public function __construct($menu)
 	{
