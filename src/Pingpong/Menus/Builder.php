@@ -3,19 +3,37 @@
 class Builder
 {
 	/**
+	 * Menu name.
+	 *
 	 * @var string
 	 */
 	protected $menu;
 
 	/**
+	 * Array menu items.
+	 *
 	 * @var array
 	 */
 	protected $items = array();
 
 	/**
+	 * Default presenter class.
+	 *
 	 * @var string
 	 */
 	protected $presenter = 'Pingpong\Menus\Presenters\Bootstrap\NavbarPresenter';
+
+	/**
+	 * Style name for each presenter.
+	 *
+	 * @var array
+	 */
+	protected $style = array(
+		'navbar'		=>	'Pingpong\Menus\Presenters\Bootstrap\NavbarPresenter',
+		'navbar-right'	=>	'Pingpong\Menus\Presenters\Bootstrap\NavbarRightPresenter',
+		'nav-pills'		=>	'Pingpong\Menus\Presenters\Bootstrap\NavPillsPresenter',
+		'nav-tab'		=>	'Pingpong\Menus\Presenters\Bootstrap\NavTabPresenter',
+	);
 
 	/**
 	 * Constructor.
@@ -47,6 +65,21 @@ class Builder
 	public function getPresenter()
 	{
 		return new $this->presenter;
+	}
+
+	/**
+	 * Set new presenter class by given style name.
+	 *
+	 * @param  string  $name
+	 * @return self
+	 */
+	public function style($name)
+	{
+		if(array_key_exists($name, $this->style))
+		{
+			$this->setPresenter($this->style[$name]);
+		}
+		return $this;
 	}
 
 	/**
