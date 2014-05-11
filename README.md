@@ -196,6 +196,7 @@ Menu::render('zurb-top-bar', 'ZurbTopBarPresenter');
 ```
 
 **Mendaftar Style Baru**
+
 Style ini ibarat alias untuk sebuat presenter. Anda bisa mendaftarkan style dari costum presenter Anda dikonfigurasi file yaitu `app/config/packages/pingpong/menus/config.php`. Seperti ini.
 
 ```php
@@ -210,7 +211,7 @@ return array(
 ```
 Kemudian Anda bisa menggunakan style seperti ini. Sama seperti bagian **Menu Style** diatas.
 ```php
-Menu::create('navbar', function($menu)
+Menu::create('zurb-top-bar', function($menu)
 {
 	$menu->style('zurb-top-bar');
 	$menu->add([
@@ -219,5 +220,18 @@ Menu::create('navbar', function($menu)
 	]);
 });
 ```
+
+**Mendapatkan Instance**
+
+Untuk mendapatkan instance dari menu yang telah ada, Anda dapat menggunakan method `instance`. Berikut contohnya.
+
+```php
+$menu = Menu::instance('zurb-top-bar');
+
+// Anda juga bisa melakukan penambahan menu (lagi)
+
+$menu->add(['title' => 'Settings', 'route' => 'settings']);
+```
+
 ### License
 This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
