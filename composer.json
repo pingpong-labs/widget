@@ -1,7 +1,7 @@
 {
     "name": "pingpong/menus",
     "description": "Laravel 4 - Simple Menus",
-    "keywords": ["laravel", "menus", "pingpong"],
+    "keywords": ["laravel", "menus", "pingpong", "navigation", "nav", "bootstrap"],
     "license": "MIT",
     "authors": [
         {
