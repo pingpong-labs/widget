@@ -1,5 +1,7 @@
 <?php namespace Pingpong\Menus;
 
+use Illuminate\Support\Facades\Config;
+
 class Builder
 {
 	/**
@@ -28,12 +30,7 @@ class Builder
 	 *
 	 * @var array
 	 */
-	protected $style = array(
-		'navbar'		=>	'Pingpong\Menus\Presenters\Bootstrap\NavbarPresenter',
-		'navbar-right'	=>	'Pingpong\Menus\Presenters\Bootstrap\NavbarRightPresenter',
-		'nav-pills'		=>	'Pingpong\Menus\Presenters\Bootstrap\NavPillsPresenter',
-		'nav-tab'		=>	'Pingpong\Menus\Presenters\Bootstrap\NavTabPresenter',
-	);
+	protected $style;
 
 	/**
 	 * Constructor.
@@ -43,7 +40,8 @@ class Builder
 	 */
 	public function __construct($menu)
 	{
-		$this->menu = $menu;
+		$this->menu 	= $menu;
+		$this->style 	= Config::get('menus::styles');
 	}
 
 	/**
