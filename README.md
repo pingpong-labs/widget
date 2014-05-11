@@ -47,7 +47,7 @@ Kemudian tambahkan juga class alias dibagian array `aliases`.
 ```
 Kemudian, publish configuration untuk package `pingpong/menus`:
 ```
-php artisan config:publish package=pingpong/menus
+php artisan config:publish pingpong/menus
 ```
 Selesai.
 ### Contoh Penggunaan
