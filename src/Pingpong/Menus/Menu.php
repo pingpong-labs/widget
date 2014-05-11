@@ -46,6 +46,29 @@ class Menu
 	}
 
 	/**
+	 * Get instance of the given menu if exists.
+	 * 
+	 * @param  string $name 
+	 * @return string
+	 */
+	public function instance($name)
+	{
+		return $this->has($name) ? $this->menus[$name] : null;
+	}
+
+	/**
+	 * Render the menu tag by given name.
+	 * 
+	 * @param  string $name 
+	 * @param  string $presenter 
+	 * @return string
+	 */
+	public function get($name, $presenter = null)
+	{
+		return $this->has($name) ? $this->menus[$name]->render($presenter) : null;
+	}
+
+	/**
 	 * Render the menu tag by given name.
 	 * 
 	 * @param  string $name 
@@ -53,6 +76,6 @@ class Menu
 	 */
 	public function render($name, $presenter = null)
 	{
-		return $this->has($name) ? $this->menus[$name]->render($presenter) : null;
+		return $this->get($name, $presenter);
 	}
 }

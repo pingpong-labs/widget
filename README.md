@@ -49,6 +49,10 @@ Kemudian tambahkan juga class alias dibagian array `aliases`.
 		'Menu'          =>  'Pingpong\Menus\Facades\Menu',
 	)
 ```
+Kemudian, publish configuration untuk package `pingpong/menus`:
+```
+php artisan config:publish --package=pingpong/menus
+```
 Selesai.
 ### Contoh Penggunaan
 
@@ -104,11 +108,11 @@ Menu::create('navbar', function($menu)
 		'url'	=>	'pages/about-me',
 		'title'	=>	'About Me',
 	]);
+});
 ```
 
 **Membuat Costum Presenter**
 ```php
-<?php
 
 use Pingpong\Menus\Presenters\Presenter;
 
@@ -184,10 +188,36 @@ Menu::create('zurb-top-bar', function($menu)
 		'url'	=>	'pages/about-me',
 		'title'	=>	'About Me',
 	]);
+});
 ```
 Atau Anda bisa mensetnya pada saat pemanggilan menu tersebut seperti ini.
 ```php
 Menu::render('zurb-top-bar', 'ZurbTopBarPresenter');
+```
+
+**Mendaftar Style Baru**
+Style ini ibarat alias untuk sebuat presenter. Anda bisa mendaftarkan style dari costum presenter Anda dikonfigurasi file yaitu `app/config/packages/pingpong/menus/config.php`. Seperti ini.
+
+```php
+return array(
+	'navbar'		=>	'Pingpong\Menus\Presenters\Bootstrap\NavbarPresenter',
+	'navbar-right'	=>	'Pingpong\Menus\Presenters\Bootstrap\NavbarRightPresenter',
+	'nav-pills'		=>	'Pingpong\Menus\Presenters\Bootstrap\NavPillsPresenter',
+	'nav-tab'		=>	'Pingpong\Menus\Presenters\Bootstrap\NavTabPresenter',
+
+	'zurb-top-bar'	=>	'ZurbTopBarPresenter',
+);
+```
+Kemudian Anda bisa menggunakan style seperti ini. Sama seperti bagian **Menu Style** diatas.
+```php
+Menu::create('navbar', function($menu)
+{
+	$menu->style('zurb-top-bar');
+	$menu->add([
+		'route'	=>	'home',
+		'title'	=>	'Home',
+	]);
+});
 ```
 ### License
 This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
