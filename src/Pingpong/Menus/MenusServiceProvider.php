@@ -19,6 +19,20 @@ class MenusServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('pingpong/menus');
+		$this->requireMenusFile();
+	}
+
+	/**
+	 * Require the menus file if that file is exists.
+	 *
+	 * @return void
+	 */
+	public function requireMenusFile()
+	{
+		if(file_exists($file = app_path('menus.php')))
+		{
+			require $file;
+		}
 	}
 
 	/**

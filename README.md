@@ -51,12 +51,12 @@ Kemudian tambahkan juga class alias dibagian array `aliases`.
 ```
 Kemudian, publish configuration untuk package `pingpong/menus`:
 ```
-php artisan config:publish --package=pingpong/menus
+php artisan config:publish package=pingpong/menus
 ```
 Selesai.
 ### Contoh Penggunaan
 
-Pertama, buat file bernama `menus.php` didalam folder `app/` Anda, berdampingan dengan file `routes.php` dan `filters.php`. Kemudian incude/require file tersebut kedalam file `app/start/global.php`.
+Pertama, buat file bernama `menus.php` didalam folder `app/` Anda, berdampingan dengan file `routes.php` dan `filters.php`. File tersebut akan otomatis di `include` jika file tersebut ada dan difile itulah Anda bisa mendefinisikan menu-menu yang akan Anda buat. 
 
 **Membuat menu.**
 ```php
@@ -87,9 +87,38 @@ Menu::create('navbar', function($menu)
 });
 ````
 
+**Membuat Banyak Menu**
+
+Package ini memungkinkan Anda membuat banyak menu dengan style yang berbeda-beda. Berikut contohnya.
+
+```php
+Menu::create('menu1', function($menu)
+{
+	$menu->add([
+		'route'	=>	'home',
+		'title'	=>	'Home',
+	]);
+})
+
+Menu::create('menu2', function($menu)
+{
+	$menu->add([
+		'url'	=>	'home',
+		'title'	=>	'Dashboard',
+	]);
+})
+```
+
 **Pemanggilan menu.**
+
+Pemanggilan menu bisa menggunakan method `render` atau `get`.
+
 ```php
 Menu::render('navbar');
+
+Menu::get('menu1');
+
+Menu::get('menu2');
 ```
 
 **Menu Style.**
