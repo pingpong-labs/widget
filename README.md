@@ -19,10 +19,8 @@ Setelah telah itu, buka file `app/config/app.php` dan tambahkan new service prov
 	'providers' => array(
 
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
-		'Illuminate\Auth\AuthServiceProvider',
-		
-		...
-		
+		'Illuminate\Auth\AuthServiceProvider',		
+		...		
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		
@@ -38,10 +36,8 @@ Kemudian tambahkan juga class alias dibagian array `aliases`.
 	'aliases' => array(
 
 		'App'             => 'Illuminate\Support\Facades\App',
-		'Artisan'         => 'Illuminate\Support\Facades\Artisan',
-		
-		...
-		
+		'Artisan'         => 'Illuminate\Support\Facades\Artisan',		
+		...		
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 		
@@ -226,7 +222,7 @@ Menu::render('zurb-top-bar', 'ZurbTopBarPresenter');
 
 **Mendaftar Style Baru**
 
-Style ini ibarat alias untuk sebuat presenter. Anda bisa mendaftarkan style dari costum presenter Anda dikonfigurasi file yaitu `app/config/packages/pingpong/menus/config.php`. Seperti ini.
+Style ini ibarat alias untuk sebuah presenter. Anda bisa mendaftarkan style dari costum presenter Anda dikonfigurasi file yaitu `app/config/packages/pingpong/menus/config.php`. Seperti ini.
 
 ```php
 return array(
