@@ -3,7 +3,7 @@ Laravel 4 - Simple Menus
 
 ### Readme
  	
-[Klik disini](https://github.com/pingpong-labs/menus/blob/master/README-id.md) untuk membaca readme dalam bahasa Indonesia.
+[Klik disini](https://github.com/pingpong-labs/menus/blob/master/README-id.md) untuk membaca readme dalam Bahasa Indonesia.
 
 ### Installation
 
@@ -56,7 +56,7 @@ Done.
 
 ### Example Usage
 
-First , create a file called `menus.php` in your `app/` folder, alongside with `routes.php` and `filters.php`. The file will be automatically include if the file exists. You can define your menus in that file.
+First, create a file called `menus.php` in your `app/` folder, alongside with `routes.php` and `filters.php`. The file will be automatically include if the file exists. And you can define your menus in that file.
 
 **Creating a menu.**
 ```php
@@ -123,7 +123,7 @@ Menu::get('menu2');
 
 **Menu Style.**
 
-By default the generated menu style is bootstrap navbar. In addition there are also several different menu styles and is already available by default are ' navbar ', ' navbar-right ', ' nav-pills ' and ' nav-tab '. To set the style menu you can use the method ' style '. Examples like this.
+By default the generated menu style is bootstrap navbar. In addition there are also several different menu styles and is already available by default are `navbar`, `navbar-right`, `nav-pills` and `nav-tab`. To set the style menu you can use the method `style`. Examples like this.
 
 ```php
 Menu::create('navbar', function($menu)
@@ -142,7 +142,7 @@ Menu::create('navbar', function($menu)
 
 **Make A Costum Presenter**
 
-You can create your own presenter class. For example this is zurb menu presenter. Make sure your presenter is extends to `Pingpong\Menus\Presenters\Presenter`, that class is also `implements` to 'Pingpong\Menus\Presenters\PresenterInterface'.
+You can create your own presenter class. Make sure your presenter is extends to `Pingpong\Menus\Presenters\Presenter`, that class is also `implements` to 'Pingpong\Menus\Presenters\PresenterInterface'. For example this is zurb topbar presenter. 
 
 ```php
 
@@ -208,7 +208,7 @@ class ZurbTopBarPresenter extends Presenter
 }
 
 ```
-For use costum presenter, you can use the ' setPresenter ' method, for example like this.
+For use costum presenter, you can use the `setPresenter` method, for example like this.
 ```php
 Menu::create('zurb-top-bar', function($menu)
 {
@@ -231,7 +231,7 @@ Menu::render('zurb-top-bar', 'ZurbTopBarPresenter');
 
 **Register A New Style Menu**
 
-This Style is like an alias to a presenter. You can register your style from your costum presenter in the configuration file in  'app/config/packages/pingpong/menus/config.php'. Like this.
+This Style is like an alias to a presenter. You can register your style from your costum presenter in the configuration file in  `app/config/packages/pingpong/menus/config.php`. Like this.
 
 ```php
 return array(
@@ -259,7 +259,7 @@ Menu::create('zurb-top-bar', function($menu)
 
 **Get The Menu Instance**
 
-To get an instance of an existing menu, you can use the ' instance ' method. Here's an example.
+To get an instance of an existing menu, you can use the `instance` method. Here's an example.
 
 ```php
 $menu = Menu::instance('zurb-top-bar');
