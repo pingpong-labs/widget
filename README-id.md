@@ -3,21 +3,21 @@ Laravel 4 - Simple Menus
 
 ### Readme
  	
-[Klik disini](https://github.com/pingpong-labs/menus/blob/master/README-id.md) untuk membaca readme dalam bahasa Indonesia.
+[Click here](https://github.com/pingpong-labs/menus/blob/master/README.md) to read the readme in English.
 
-### Installation
+### Instalasi
 
-First, open your `composer.json` file and add new package.
+Pertama, buka file `composer.json` Anda dan tambahkan package baru.
 ```
     "require": {
         "pingpong/menus": "dev-master" 
     },
 ```
-Then open a terminal and run:
+Kemudian buka terminal dan jalankan:
 ```
 composer update 
 ```
-After that, open the file `app/config/app.php` and add a new service provider in `providers` array.
+Setelah itu, buka file `app/config/app.php` dan tambahkan new service provider dibagian array `providers`.
 ```php
    
 	'providers' => array(
@@ -28,12 +28,13 @@ After that, open the file `app/config/app.php` and add a new service provider in
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		
-		// here
+		// disini
 		'Pingpong\Menus\MenusServiceProvider'
 
 	),
 ```
-Then add the class alias ini `aliases`.
+Kemudian tambahkan juga class alias dibagian array `aliases`.
+
 ```php
 
 	'aliases' => array(
@@ -44,21 +45,20 @@ Then add the class alias ini `aliases`.
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 		
-		// here
+		// disini
 		'Menu'          =>  'Pingpong\Menus\Facades\Menu',
 	)
 ```
-Then, publish configuration for package `pingpong/menus`:
+Kemudian, publish configuration untuk package `pingpong/menus`:
 ```
 php artisan config:publish pingpong/menus
 ```
-Done.
+Selesai.
+### Contoh Penggunaan
 
-### Example Usage
+Pertama, buat file bernama `menus.php` didalam folder `app/` Anda, berdampingan dengan file `routes.php` dan `filters.php`. File tersebut akan otomatis di `include` jika file tersebut ada dan di file itulah Anda bisa mendefinisikan menu-menu yang akan Anda buat. 
 
-First , create a file called `menus.php` in your `app/` folder, alongside with `routes.php` and `filters.php`. The file will be automatically include if the file exists. You can define your menus in that file.
-
-**Creating a menu.**
+**Membuat menu.**
 ```php
 Menu::create('navbar', function($menu)
 {
@@ -87,9 +87,9 @@ Menu::create('navbar', function($menu)
 });
 ````
 
-**Make Lots of menu**
+**Membuat Banyak Menu**
 
-This package allows you to create a menu with a lot of different styles. Here's an example.
+Package ini memungkinkan Anda membuat banyak menu dengan style yang berbeda-beda. Berikut contohnya.
 
 ```php
 Menu::create('menu1', function($menu)
@@ -109,9 +109,9 @@ Menu::create('menu2', function($menu)
 })
 ```
 
-**Calling a menu.**
+**Pemanggilan menu.**
 
-To call up the menu you can use `render` or `get` method.
+Pemanggilan menu bisa menggunakan method `render` atau `get`.
 
 ```php
 Menu::render('navbar');
@@ -123,7 +123,7 @@ Menu::get('menu2');
 
 **Menu Style.**
 
-By default the generated menu style is bootstrap navbar. In addition there are also several different menu styles and is already available by default are ' navbar ', ' navbar-right ', ' nav-pills ' and ' nav-tab '. To set the style menu you can use the method ' style '. Examples like this.
+Secara default style menu yang dihasilkan adalah bootstrap navbar. Selain itu ada juga beberapa style menu yang berbeda dan sudah tersedia secara default yaitu `navbar`, `navbar-right`, `nav-pills` dan `nav-tab`. Untuk men-set style menu Anda bisa menggunakan method `style`. Contohnya seperti ini.
 
 ```php
 Menu::create('navbar', function($menu)
@@ -140,10 +140,7 @@ Menu::create('navbar', function($menu)
 });
 ```
 
-**Make A Costum Presenter**
-
-You can create your own presenter class. For example this is zurb menu presenter. Make sure your presenter is extends to `Pingpong\Menus\Presenters\Presenter`, that class is also `implements` to 'Pingpong\Menus\Presenters\PresenterInterface'.
-
+**Membuat Costum Presenter**
 ```php
 
 use Pingpong\Menus\Presenters\Presenter;
@@ -208,7 +205,7 @@ class ZurbTopBarPresenter extends Presenter
 }
 
 ```
-For use costum presenter, you can use the ' setPresenter ' method, for example like this.
+Untuk menggunakan costum presenter, Anda bisa menggunakan method `setPresenter`, contohnya seperti ini.
 ```php
 Menu::create('zurb-top-bar', function($menu)
 {
@@ -222,16 +219,14 @@ Menu::create('zurb-top-bar', function($menu)
 	]);
 });
 ```
-
-Or you can set it at the time of calling the menu, like this.
-
+Atau Anda bisa mensetnya pada saat pemanggilan menu tersebut seperti ini.
 ```php
 Menu::render('zurb-top-bar', 'ZurbTopBarPresenter');
 ```
 
-**Register A New Style Menu**
+**Mendaftar Style Baru**
 
-This Style is like an alias to a presenter. You can register your style from your costum presenter in the configuration file in  'app/config/packages/pingpong/menus/config.php'. Like this.
+Style ini ibarat alias untuk sebuah presenter. Anda bisa mendaftarkan style dari costum presenter Anda dikonfigurasi file yaitu `app/config/packages/pingpong/menus/config.php`. Seperti ini.
 
 ```php
 return array(
@@ -243,9 +238,7 @@ return array(
 	'zurb-top-bar'	=>	'ZurbTopBarPresenter',
 );
 ```
-
-Then you can use a style like this. Same as section **Menu Style** above.
-
+Kemudian Anda bisa menggunakan style seperti ini. Sama seperti bagian **Menu Style** diatas.
 ```php
 Menu::create('zurb-top-bar', function($menu)
 {
@@ -257,14 +250,14 @@ Menu::create('zurb-top-bar', function($menu)
 });
 ```
 
-**Get The Menu Instance**
+**Mendapatkan Instance**
 
-To get an instance of an existing menu, you can use the ' instance ' method. Here's an example.
+Untuk mendapatkan instance dari menu yang telah ada, Anda dapat menggunakan method `instance`. Berikut contohnya.
 
 ```php
 $menu = Menu::instance('zurb-top-bar');
 
-// You can also make additions to the menu again
+// Anda juga bisa melakukan penambahan menu (lagi)
 
 $menu->add(['title' => 'Settings', 'route' => 'settings']);
 ```
