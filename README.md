@@ -1,6 +1,10 @@
 Laravel 4 - Simple Menus
 ========================
 
+### Readme
+ 	
+ 	[Click here]() to read the readme in English.
+
 ### Instalasi
 
 Pertama, buka file `composer.json` Anda dan tambahkan package baru.
@@ -13,7 +17,7 @@ Kemudian buka terminal dan jalankan:
 ```
 composer update 
 ```
-Setelah telah itu, buka file `app/config/app.php` dan tambahkan new service provider dibagian array `providers`.
+Setelah itu, buka file `app/config/app.php` dan tambahkan new service provider dibagian array `providers`.
 ```php
    
 	'providers' => array(
