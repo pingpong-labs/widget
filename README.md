@@ -10,7 +10,7 @@ Laravel 4 - Simple Menus
 First, open your `composer.json` file and add new package.
 ```
     "require": {
-        "pingpong/menus": "dev-master" 
+        "pingpong/menus": "1.0.*" 
     },
 ```
 Then open a terminal and run:
