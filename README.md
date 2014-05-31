@@ -128,7 +128,6 @@ By default the generated menu style is bootstrap navbar. In addition there are a
 ```php
 Menu::create('navbar', function($menu)
 {
-	// secara default mendukung 4 style : navbar, navbar-right, nav-pills dan nav-tab
 	$menu->style('nav-pills');
 	$menu->add([
 		'route'	=>	'home',
