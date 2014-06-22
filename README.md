@@ -56,29 +56,75 @@ Done.
 
 ### Example Usage
 
-**NEW**
+**NEW!**
 
+Status : Under Development
+Branch : dev-master
+
+On `app/menus.php` :
 ```php
+
+// app/menus.php
 
 use Pingpong\Menus\Builder;
 use Pingpong\Menus\MenuItem;
 
 Menu::create('top', function(Builder $menu)
 {
-    $menu->dropdown('Account', function(MenuItem $sub)
+    // simple using route
+    $menu->route('home', 'Home');
+    // simple using route with parameters and attributes
+    $menu->route('profile.user', 'View Profile', ['username' => 'gravitano'], ['class' => 'btn btn-default']);
+    // using array
+    $menu->add([
+        'url'   =>  'messages',
+        'title' =>  'Messages',
+        'icon'  =>  'fa fa-envelope'
+    ]);
+    // using url
+    $menu->url('products', 'Products');
+    // using url with attributes
+    $menu->url('products/1', 'View Products', ['class' => 'btn btn-link']);
+    // new! support dropdown with multi level nested menu
+    $menu->dropdown('Settings', function(MenuItem $sub)
     {
-        $sub->url('logout', 'Logout');
-        $sub->dropdown('Payment', function(MenuItem $sub)
+        $sub->url('profile/edit', 'Edit Profile');
+        $sub->dropdown('Account', function(MenuItem $sub)
         {
-            $sub->url('profile', 'Info');
-            $sub->url('profile1', 'Billing');
-            $sub->dropdown('Nested', function(MenuItem $sub)
+            $sub->url('settings/payment', 'Payment');
+            // nested menu
+            $sub->dropdown('Social Network', function(MenuItem $sub)
             {
-                $sub->url('http://google.com', 'Goto Google', ['target' => '_blank']);
+                $sub->url('https://github.com/gravitano', 'Github', ['target' => '_blank']);
+                $sub->url('https://facebook.com/warsono.m.faisyal', 'Facebook', ['target' => '_blank']);
+                $sub->url('https://twitter.com/gravitano', 'Twitter', ['target' => '_blank']);
             });
         });
+        $sub->url('logout', 'Logout');
     });
 });
+```
+
+On view, for example `hello.blade.php`.
+```
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Laravel PHP Framework</title>
+	{{ HTML::style('css/bootstrap.css') }}
+    {{ View::make('menus::style')->render() }}
+</head>
+<body>
+
+    <div class="container">
+        {{ Menu::get('top') }}
+    </div>
+
+    {{ HTML::script('js/jquery.min.js') }}
+    {{ HTML::script('js/bootstrap.min.js') }}
+</body>
+</html>
 ```
 
 First, create a file called `menus.php` in your `app/` folder, alongside with `routes.php` and `filters.php`. The file will be automatically include if the file exists. And you can define your menus in that file.
