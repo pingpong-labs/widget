@@ -33,7 +33,7 @@ After that, open the file `app/config/app.php` and add a new service provider in
 
 	),
 ```
-Then add the class alias ini `aliases`.
+Then add the class alias in `aliases`.
 ```php
 
 	'aliases' => array(
