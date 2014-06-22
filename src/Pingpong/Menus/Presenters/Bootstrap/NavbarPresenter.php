@@ -25,7 +25,7 @@ class NavbarPresenter extends Presenter
 	 */
 	public function getMenuWithoutDropdownWrapper($item)
 	{
-		return '<li'.$this->getActiveState($item).'><a href="'. $item->getUrl() .'">'.$item->getIcon().' '.$item->title.'</a></li>';
+		return '<li'.$this->getActiveState($item).'><a href="'. $item->getUrl() .'" ' . $item->getAttributes() .'>'.$item->getIcon().' '.$item->title.'</a></li>' . PHP_EOL;
 	}
 
 	/**
@@ -50,7 +50,7 @@ class NavbarPresenter extends Presenter
 	public function getMenuWithDropDownWrapper($item)
 	{
 		return '<li class="dropdown">
-			      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					'.$item->getIcon().' '.$item->title.'
 			      	<b class="caret"></b>
 			      </a>
@@ -61,4 +61,25 @@ class NavbarPresenter extends Presenter
 		      	. PHP_EOL;
 		;
 	}
+
+    /**
+     * Get multilevel menu wrapper.
+     *
+     * @param \Pingpong\Menus\MenuItem $item
+     * @return string`
+     */
+    public function getMultiLevelDropdownWrapper($item)
+    {
+        return '<li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					'.$item->getIcon().' '.$item->title.'
+			      	<b class="caret pull-right caret-right"></b>
+			      </a>
+			      <ul class="dropdown-menu">
+			      	'.$this->getChildMenuItems($item).'
+			      </ul>
+		      	</li>'
+        . PHP_EOL;
+        ;
+    }
 }

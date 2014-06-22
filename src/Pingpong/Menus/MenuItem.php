@@ -1,11 +1,14 @@
 <?php namespace Pingpong\Menus;
 
-class MenuItem
+use Illuminate\Support\Contracts\ArrayableInterface;
+use Illuminate\Support\Facades\HTML;
+
+class MenuItem implements ArrayableInterface
 {	
 	/**
 	 * @var array
 	 */
-	protected $attributes;
+	protected $properties;
 
 	/**
 	 * @var array
@@ -13,21 +16,33 @@ class MenuItem
 	protected $childs = array();
 
 	/**
+     * The fillable attribute.
+     *
 	 * @var array
 	 */
-	protected $properties = array('url', 'route', 'title', 'name', 'icon', 'parent');
-	
+	protected $fillable = array('url', 'route', 'title', 'name', 'icon', 'parent', 'attributes');
+
 	/**
 	 * Constructor.
 	 *
-	 * @param  array  $attributes
-	 * @return void
+	 * @param array $properties
 	 */
-	public function __construct($attributes = array())
+	public function __construct($properties = array())
 	{
-		$this->attributes = $attributes;
-		$this->setProperty($attributes);
+		$this->properties = $properties;
+		$this->fill($properties);
 	}
+
+    /**
+     * Create new static instance.
+     *
+     * @param array $attributes
+     * @return static
+     */
+    public static function make(array $attributes)
+    {
+        return new static($attributes);
+    }
 
 	/**
 	 * Set Property.
@@ -35,30 +50,92 @@ class MenuItem
 	 * @param  array  $attributes
 	 * @return void
 	 */
-	public function setProperty($attributes)
+	public function fill($attributes)
 	{
 		foreach ($attributes as $key => $value)
 		{
-			if(in_array($key, $this->properties))
+			if(in_array($key, $this->fillable))
 			{
 				$this->{$key} = $value;
 			}
 		}
 	}
 
-	/**
-	 * Add new child menu.
-	 *
-	 * @param  array  $attributes
-	 * @return self
-	 */
-	public function child($attributes = array())
-	{
-		$this->childs[] = new self($attributes);
-		return $this;	
+    /**
+     * Create new menu child item using array.
+     *
+     * @param $attributes
+     * @return $this
+     */
+    public function child($attributes)
+    {
+        $this->childs[] = new self($attributes);
+
+        return $this;
 	}
 
-	/**
+    /**
+     * Register new child menu with dropdown.
+     *
+     * @param $title
+     * @param callable $callback
+     * @return $this
+     */
+    public function dropdown($title, \Closure $callback)
+    {
+        $child = static::make(compact('title'));
+
+        call_user_func($callback, $child);
+
+        $this->childs[] = $child;
+
+        return $this;
+    }
+
+    /**
+     * Create new menu item and set the action to route.
+     *
+     * @param $route
+     * @param $title
+     * @param array $parameters
+     * @param array $attributes
+     * @return array
+     */
+    public function route($route, $title, $parameters = array(), $attributes = array())
+    {
+        $item = array(
+            'route'         =>  array($route, $parameters),
+            'title'         =>  $title,
+            'attributes'    =>  $attributes
+        );
+
+        $this->childs[] = new self($item);
+
+        return $this;
+    }
+
+    /**
+     * Create new menu item  and set the action to url.
+     *
+     * @param $url
+     * @param $title
+     * @param array $attributes
+     * @return array
+     */
+    public function url($url, $title, $attributes = array())
+    {
+        $item = array(
+            'url'        =>  $url,
+            'title'      =>  $title,
+            'attributes' =>  $attributes
+        );
+
+        $this->childs[] = new self($item);
+
+        return $this;
+    }
+
+    /**
 	 * Add new divider.
 	 *
 	 * @return self
@@ -86,7 +163,7 @@ class MenuItem
 	 */
 	public function getUrl()
 	{
-		return ! is_null($this->route) ? route($this->route) : url($this->url);
+		return ! empty($this->route) ? route($this->route[0], $this->route[1]) : url($this->url);
 	}
 
 	/**
@@ -110,6 +187,26 @@ class MenuItem
 		return ! is_null($this->icon) ? '<i class="'. $this->icon .'"></i>' : $default;
 	}
 
+    /**
+     * Get properties.
+     *
+     * @return array
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    /**
+     * Get HTML attribute data.
+     *
+     * @return mixed
+     */
+    public function getAttributes()
+    {
+        return HTML::attributes($this->attributes);
+    }
+
 	/**
 	 * Check is the current item divider.
 	 *
@@ -121,7 +218,7 @@ class MenuItem
 	}
 
 	/**
-	 * Check is the current item has submenu .
+	 * Check is the current item has sub menu .
 	 *
 	 * @return boolean
 	 */
@@ -130,7 +227,27 @@ class MenuItem
 		return ! empty($this->childs);
 	}
 
-	/**
+    /**
+     * Same with hasSubMenu.
+     *
+     * @return bool
+     */
+    public function hasChilds()
+    {
+        return $this->hasSubMenu();
+    }
+
+    /**
+     * Get the instance as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->properties;
+    }
+
+    /**
 	 * Get property.
 	 *
 	 * @param  string  $key

@@ -1,7 +1,12 @@
 <?php namespace Pingpong\Menus;
 
 use Closure;
+use Illuminate\Support\Facades\View;
 
+/**
+ * Class Menu
+ * @package Pingpong\Menus
+ */
 class Menu
 {
 	/**
@@ -25,8 +30,9 @@ class Menu
 	/**
 	 * Create new menu.
 	 *
-	 * @param  string $name 
-	 * @return \Pingpong\Menus\Builder
+     * @param  string $name
+     * @param  Callable $resolver
+     * @return \Pingpong\Menus\Builder
 	 */
 	public function create($name, Closure $resolver)
 	{
@@ -68,14 +74,35 @@ class Menu
 		return $this->has($name) ? $this->menus[$name]->render($presenter) : null;
 	}
 
-	/**
-	 * Render the menu tag by given name.
-	 * 
-	 * @param  string $name 
-	 * @return string
-	 */
-	public function render($name, $presenter = null)
+    /**
+     * Render the menu tag by given name.
+     *
+     * @param $name
+     * @param null $presenter
+     * @return string
+     */
+    public function render($name, $presenter = null)
 	{
 		return $this->get($name, $presenter);
 	}
+
+    /**
+     * Get a stylesheet for enable multilevel menu.
+     *
+     * @return mixed
+     */
+    public function style()
+    {
+        return View::make('menus::style')->render();
+    }
+
+    /**
+     * Get all menus.
+     *
+     * @return array
+     */
+    public function all()
+    {
+        return $this->menus;
+    }
 }

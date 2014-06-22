@@ -1,5 +1,7 @@
 <?php namespace Pingpong\Menus\Presenters;
 
+use Pingpong\Menus\MenuItem;
+
 class Presenter implements PresenterInterface
 {
 	/**
@@ -39,18 +41,30 @@ class Presenter implements PresenterInterface
 	 */
 	public function getMenuWithDropDownWrapper($item) {}
 
+    /**
+     * Get multi level dropdown menu wrapper.
+     *
+     * @param  \Pingpong\Menus\MenuItem  $item
+     * @return string
+     */
+    public function getMultiLevelDropdownWrapper($item) {}
+
 	/**
 	 * Get child menu items.
 	 *
 	 * @param  \Pingpong\Menus\MenuItem  $item
 	 * @return string
 	 */
-	public function getChildMenuItems($item)
+	public function getChildMenuItems(MenuItem $item)
 	{
 		$results = '';
 		foreach ($item->getChilds() as $child)
 		{
-			if($child->isDivider())
+            if($child->hasSubMenu())
+            {
+                $results.= $this->getMultiLevelDropdownWrapper(($child));
+            }
+			elseif($child->isDivider())
 			{
 				$results.= $this->getDividerWrapper();
 			}

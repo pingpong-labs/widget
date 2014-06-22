@@ -24,7 +24,7 @@ After that, open the file `app/config/app.php` and add a new service provider in
 
 		'Illuminate\Foundation\Providers\ArtisanServiceProvider',
 		'Illuminate\Auth\AuthServiceProvider',		
-		...		
+		...
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		
@@ -55,6 +55,31 @@ php artisan config:publish pingpong/menus
 Done.
 
 ### Example Usage
+
+**NEW**
+
+```php
+
+use Pingpong\Menus\Builder;
+use Pingpong\Menus\MenuItem;
+
+Menu::create('top', function(Builder $menu)
+{
+    $menu->dropdown('Account', function(MenuItem $sub)
+    {
+        $sub->url('logout', 'Logout');
+        $sub->dropdown('Payment', function(MenuItem $sub)
+        {
+            $sub->url('profile', 'Info');
+            $sub->url('profile1', 'Billing');
+            $sub->dropdown('Nested', function(MenuItem $sub)
+            {
+                $sub->url('http://google.com', 'Goto Google', ['target' => '_blank']);
+            });
+        });
+    });
+});
+```
 
 First, create a file called `menus.php` in your `app/` folder, alongside with `routes.php` and `filters.php`. The file will be automatically include if the file exists. And you can define your menus in that file.
 

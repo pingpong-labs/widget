@@ -36,7 +36,6 @@ class Builder
 	 * Constructor.
 	 *
 	 * @param  string  $menu
-	 * @return void
 	 */
 	public function __construct($menu)
 	{
@@ -88,10 +87,73 @@ class Builder
 	 */
 	public function add(array $attributes = array())
 	{
-		$newItem  		=  new MenuItem($attributes);
-		$this->items[] 	= $newItem;
-		return $newItem;
-	}
+        $item =  MenuItem::make($attributes);
+
+        $this->items[] = $item;
+
+        return $item;
+    }
+
+    /**
+     * Create new menu with dropdown.
+     *
+     * @param $title
+     * @param callable $callback
+     * @return $this
+     */
+    public function dropdown($title, \Closure $callback)
+    {
+        $item = MenuItem::make(compact('title'));
+
+        call_user_func($callback, $item);
+
+        $this->items[] = $item;
+
+        return $this;
+    }
+
+    /**
+     * Register new menu item using registered route.
+     *
+     * @param $route
+     * @param $title
+     * @param array $parameters
+     * @param array $attributes
+     * @return static
+     */
+    public function route($route, $title, $parameters = array(), $attributes = array())
+    {
+        $item = MenuItem::make(array(
+            'route'         =>  array($route, $parameters),
+            'title'         =>  $title,
+            'attributes'    =>  $attributes
+        ));
+
+        $this->items[] = $item;
+
+        return $item;
+    }
+
+    /**
+     * Register new menu item using url.
+     *
+     * @param $url
+     * @param $title
+     * @param array $attributes
+     * @return static
+     */
+    public function url($url, $title, $attributes = array())
+    {
+        $item = MenuItem::make(array(
+            'url'         =>  $url,
+            'title'       =>  $title,
+            'attributes'  =>  $attributes
+        ));
+
+        $this->items[] = $item;
+
+        return $item;
+    }
 
 	/**
 	 * Add new divider item.
@@ -100,7 +162,7 @@ class Builder
 	 */
 	public function addDivider()
 	{
-		$this->items[] = new MenuItem(['name' => 'divider']);
+		$this->items[] = new MenuItem(array('name' => 'divider'));
 		return $this;
 	}
 

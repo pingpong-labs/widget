@@ -1,5 +1,7 @@
 <?php namespace Pingpong\Menus\Presenters;
 
+use Pingpong\Menus\MenuItem;
+
 interface PresenterInterface
 {
 	/**
@@ -45,5 +47,5 @@ interface PresenterInterface
 	 * @param  \Pingpong\Menus\MenuItem  $item
 	 * @return string
 	 */
-	public function getChildMenuItems($item);
+	public function getChildMenuItems(MenuItem $item);
 }
