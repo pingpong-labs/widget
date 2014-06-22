@@ -154,9 +154,9 @@ Menu::create('navbar', function($menu)
 	// with additional route parameters and attributes
 	$menu->route('home', 'Home', null, ['class' => 'nav-link']);
 
-	$menu->route('users.show', 'Home', Auth::id(), ['class' => 'nav-link']);
+	$menu->route('users.show', Auth::user()->name, Auth::id(), ['class' => 'nav-link']);
 
-	$menu->route('users.show', 'Home', ['username' => 'gravitano'], ['class' => 'nav-link']);
+	$menu->route('users.show', 'My Profile', ['username' => 'gravitano'], ['class' => 'nav-link']);
 
 	$menu->route('products.show', 'View Product', 1, ['class' => 'nav-link']);
 
@@ -358,6 +358,8 @@ Menu::create('zurb-top-bar', function($menu)
 		'title'	=>	'Home',
 	]);
 	$menu->url('profile', 'Profile');
+
+	$menu->route('settings', 'Settings');
 });
 ```
 
@@ -371,6 +373,10 @@ $menu = Menu::instance('zurb-top-bar');
 // You can also make additions to the menu again
 
 $menu->add(['title' => 'Settings', 'route' => 'settings']);
+
+$menu->url('profile', 'Profile');
+
+$menu->route('settings', 'Settings');
 ```
 
 ### License
