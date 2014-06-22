@@ -135,28 +135,64 @@ First, create a file called `menus.php` in your `app/` folder, alongside with `r
 ```php
 Menu::create('navbar', function($menu)
 {
+    // using array
 	$menu->add([
 		'route'	=>	'home',
 		'title'	=>	'Home',
+		'icon'  =>  'fa fa-dashboard'
 	]);
-	$menu->add([
-		'url'	=>	'pages/about-me',
-		'title'	=>	'About Me',
-		'icon'  =>  'fa fa-user'
-	]);
-	$menu->add([
-			'url'	=>	'#',
-			'title'	=>	'Category',
-		])->child([
-			'title' => 	'Sport',
-			'url'	=>	'category/sport'
-	   	])->child([
-			'title' => 	'Business',
-			'url'	=>	'category/business'
-	   	])->child([
-			'title' => 	'Travel',
-			'url'	=>	'category/travel'
-	   	]);
+
+	// menu with target to url
+	$menu->url('/', 'Home');
+
+	// with additional attributes
+	$menu->url('/', 'Home', ['class' => 'nav-link']);
+
+	// menu with target to registered route
+	$menu->route('home', 'Home');
+
+	// with additional route parameters and attributes
+	$menu->route('home', 'Home', null, ['class' => 'nav-link']);
+
+	$menu->route('users.show', 'Home', Auth::id(), ['class' => 'nav-link']);
+
+	$menu->route('users.show', 'Home', ['username' => 'gravitano'], ['class' => 'nav-link']);
+
+	$menu->route('products.show', 'View Product', 1, ['class' => 'nav-link']);
+
+	// dropdown menu
+	$menu->dropdown('Settings', function($sub)
+	{
+	    $sub->url('settings/account', 'Account');
+	    $sub->route('settings.profile', 'Profile');
+	    $sub->route('logout', 'Logout');
+	});
+
+	// multi level menu (nested)
+	$menu->dropdown('Category', function($sub)
+	{
+	    $sub->url('category/programming', 'Programming');
+
+	    $sub->url('category/screencasts', 'Screencasts');
+
+	    $sub->dropdown('Sport News', function($sub)
+	    {
+	        $sub->url('category/football', 'Football');
+	        $sub->url('category/basket-ball', 'Basket Ball');
+	    });
+
+	    $sub->dropdown('Title', function($sub)
+	    {
+	        $sub->url('link', 'Link');
+	        $sub->dropdown('Title', function($sub)
+	        {
+	            $sub->dropdown('Title N', function($sub)
+	            {
+	                // more nested menu here
+	            });
+	        });
+	    });
+	});
 });
 ````
 
@@ -167,19 +203,18 @@ This package allows you to create a menu with a lot of different styles. Here's 
 ```php
 Menu::create('menu1', function($menu)
 {
-	$menu->add([
-		'route'	=>	'home',
-		'title'	=>	'Home',
-	]);
-})
+
+	$menu->route('home', 'Home');
+
+	$menu->url('profile', 'Profile');
+});
 
 Menu::create('menu2', function($menu)
 {
-	$menu->add([
-		'url'	=>	'home',
-		'title'	=>	'Dashboard',
-	]);
-})
+	$menu->route('home', 'Home');
+
+	$menu->url('profile', 'Profile');
+});
 ```
 
 **Calling a menu.**
@@ -202,14 +237,10 @@ By default the generated menu style is bootstrap navbar. In addition there are a
 Menu::create('navbar', function($menu)
 {
 	$menu->style('nav-pills');
-	$menu->add([
-		'route'	=>	'home',
-		'title'	=>	'Home',
-	])
-	$menu->add([
-		'url'	=>	'pages/about-me',
-		'title'	=>	'About Me',
-	]);
+
+	$menu->route('home', 'Home');
+
+	$menu->url('profile', 'Profile');
 });
 ```
 
@@ -286,13 +317,10 @@ For use costum presenter, you can use the `setPresenter` method, for example lik
 Menu::create('zurb-top-bar', function($menu)
 {
 	$menu->setPresenter('ZurbTopBarPresenter');
-	$menu->add([
-		'route'	=>	'home',
-		'title'	=>	'Home',
-	])->add([
-		'url'	=>	'pages/about-me',
-		'title'	=>	'About Me',
-	]);
+
+	$menu->route('home', 'Home');
+
+	$menu->url('profile', 'Profile');
 });
 ```
 
@@ -329,6 +357,7 @@ Menu::create('zurb-top-bar', function($menu)
 		'route'	=>	'home',
 		'title'	=>	'Home',
 	]);
+	$menu->url('profile', 'Profile');
 });
 ```
 
