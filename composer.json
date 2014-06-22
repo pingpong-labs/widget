@@ -14,8 +14,8 @@
         "illuminate/support": "~4"
     },
     "autoload": {
-        "psr-4": {
-            "Pingpong\\Menus\\": "src/Pingpong"
+        "psr-0": {
+            "Pingpong\\Menus": "src/"
         }
     },
     "minimum-stability": "stable"
