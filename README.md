@@ -107,14 +107,15 @@ Menu::create('top', function(Builder $menu)
 ```
 
 On view, for example `hello.blade.php`.
-```
+```html
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<title>Laravel PHP Framework</title>
 	{{ HTML::style('css/bootstrap.css') }}
-    {{ View::make('menus::style')->render() }}
+	{{-- Add new style for allowing multi level menu --}}
+    {{ Menu::style() }}
 </head>
 <body>
 
@@ -204,7 +205,8 @@ Menu::create('navbar', function($menu)
 	$menu->add([
 		'route'	=>	'home',
 		'title'	=>	'Home',
-	])->add([
+	])
+	$menu->add([
 		'url'	=>	'pages/about-me',
 		'title'	=>	'About Me',
 	]);
@@ -298,6 +300,8 @@ Or you can set it at the time of calling the menu, like this.
 
 ```php
 Menu::render('zurb-top-bar', 'ZurbTopBarPresenter');
+
+Menu::get('zurb-top-bar', 'ZurbTopBarPresenter');
 ```
 
 **Register A New Style Menu**
