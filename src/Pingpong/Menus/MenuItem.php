@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Contracts\ArrayableInterface;
 
 class MenuItem implements ArrayableInterface
-{	
-	/**
+{
+    /**
      * Array properties.
      *
 	 * @var array
@@ -40,6 +40,26 @@ class MenuItem implements ArrayableInterface
 	}
 
     /**
+     * Set the icon property when the icon is defined in the link attributes.
+     *
+     * @param array $properties
+     * @return array
+     */
+    protected static function setIconIfDefinedInAttributes(array $properties)
+    {
+        $icon = array_get($properties, 'attributes.icon');
+        if ( ! is_null($icon))
+        {
+            $properties['icon'] = $icon;
+
+            array_forget($properties, 'attributes.icon');
+
+            return $properties;
+        }
+        return $properties;
+    }
+
+    /**
      * Get random name.
      *
      * @param array $attributes
@@ -53,17 +73,14 @@ class MenuItem implements ArrayableInterface
     /**
      * Create new static instance.
      *
-     * @param array $attributes
+     * @param array $properties
      * @return static
      */
-    public static function make(array $attributes)
+    public static function make(array $properties)
     {
-        if( ! isset($attributes['name']))
-        {
-            $attributes['name'] = self::getRandomName($attributes);
-        }
+        $properties = self::setIconIfDefinedInAttributes($properties);
 
-        return new static($attributes);
+        return new static($properties);
     }
 
 	/**
@@ -128,10 +145,10 @@ class MenuItem implements ArrayableInterface
         $item = array(
             'route'         =>  array($route, $parameters),
             'title'         =>  $title,
-            'attributes'    =>  $attributes
+            'attributes'    =>  $attributes,
         );
 
-        $this->childs[] = new self($item);
+        $this->childs[] = static::make($item);
 
         return $this;
     }
@@ -152,7 +169,7 @@ class MenuItem implements ArrayableInterface
             'attributes' =>  $attributes
         );
 
-        $this->childs[] = new self($item);
+        $this->childs[] = static::make($item);
 
         return $this;
     }
