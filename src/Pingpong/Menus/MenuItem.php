@@ -1,16 +1,22 @@
 <?php namespace Pingpong\Menus;
 
-use Illuminate\Support\Contracts\ArrayableInterface;
 use Illuminate\Support\Facades\HTML;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Contracts\ArrayableInterface;
 
 class MenuItem implements ArrayableInterface
 {	
 	/**
+     * Array properties.
+     *
 	 * @var array
 	 */
 	protected $properties;
 
 	/**
+     * The child collections for current menu item.
+     *
 	 * @var array
 	 */
 	protected $childs = array();
@@ -34,6 +40,17 @@ class MenuItem implements ArrayableInterface
 	}
 
     /**
+     * Get random name.
+     *
+     * @param array $attributes
+     * @return string
+     */
+    protected static function getRandomName(array $attributes)
+    {
+        return substr(md5(array_get($attributes, 'title', str_random(6))), 0, 5);
+    }
+
+    /**
      * Create new static instance.
      *
      * @param array $attributes
@@ -41,11 +58,16 @@ class MenuItem implements ArrayableInterface
      */
     public static function make(array $attributes)
     {
+        if( ! isset($attributes['name']))
+        {
+            $attributes['name'] = self::getRandomName($attributes);
+        }
+
         return new static($attributes);
     }
 
 	/**
-	 * Set Property.
+	 * Fill the attributes.
 	 *
 	 * @param  array  $attributes
 	 * @return void
@@ -69,7 +91,7 @@ class MenuItem implements ArrayableInterface
      */
     public function child($attributes)
     {
-        $this->childs[] = new self($attributes);
+        $this->childs[] = static::make($attributes);
 
         return $this;
 	}
@@ -142,9 +164,47 @@ class MenuItem implements ArrayableInterface
 	 */
 	public function addDivider()
 	{
-		$this->childs[] = new self(['name' => 'divider']);
+		$this->childs[] = static::make(array('name' => 'divider'));
+
 		return $this;
 	}
+
+    /**
+     * Alias method instead "addDivider".
+     *
+     * @return MenuItem
+     */
+    public function divider()
+    {
+        return $this->addDivider();
+    }
+
+    /**
+     * Add dropdown header.
+     *
+     * @param $title
+     * @return $this
+     */
+    public function addHeader($title)
+    {
+        $this->childs[] = static::make(array(
+            'name'  =>  'header',
+            'title' =>  $title
+        ));
+
+        return $this;
+    }
+
+    /**
+     * Same with "addHeader" method.
+     *
+     * @param $title
+     * @return $this
+     */
+    public function header($title)
+    {
+        return $this->addHeader($title);
+    }
 
 	/**
 	 * Get childs.
@@ -214,8 +274,29 @@ class MenuItem implements ArrayableInterface
 	 */
 	public function isDivider()
 	{
-		return $this->name == 'divider';
+		return $this->is('divider');
 	}
+
+    /**
+     * Check is the current item divider.
+     *
+     * @return bool
+     */
+    public function isHeader()
+    {
+        return $this->is('header');
+    }
+
+    /**
+     * Check is the current item divider.
+     *
+     * @param $name
+     * @return bool
+     */
+    public function is($name)
+    {
+        return $this->name == $name;
+    }
 
 	/**
 	 * Check is the current item has sub menu .
@@ -238,13 +319,85 @@ class MenuItem implements ArrayableInterface
     }
 
     /**
+     * Check the active state for current menu.
+     *
+     * @return mixed
+     */
+    public function hasActiveOnChild()
+    {
+        if($this->hasChilds())
+        {
+            foreach($this->getChilds() as $child)
+            {
+                if($child->hasRoute() && $child->getActiveStateFromRoute())
+                {
+                    return true;
+                }
+                elseif($child->getActiveStateFromUrl())
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get active state for current item.
+     *
+     * @return mixed
+     */
+    public function isActive()
+    {
+        if ($this->hasRoute())
+        {
+            return $this->getActiveStateFromRoute();
+        }
+        else
+        {
+            return $this->getActiveStateFromUrl();
+        }
+    }
+
+    /**
+     * Determine the current item using route.
+     *
+     * @return bool
+     */
+    protected function hasRoute()
+    {
+        return !empty($this->route);
+    }
+
+    /**
+     * Get active status using route.
+     *
+     * @return bool
+     */
+    protected function getActiveStateFromRoute()
+    {
+        return Route::is($this->route[0]);
+    }
+
+    /**
+     * Get active status using request url.
+     *
+     * @return bool
+     */
+    protected function getActiveStateFromUrl()
+    {
+        return Request::is($this->url);
+    }
+
+    /**
      * Get the instance as an array.
      *
      * @return array
      */
     public function toArray()
     {
-        return $this->properties;
+        return $this->getProperties();
     }
 
     /**

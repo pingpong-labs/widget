@@ -31,10 +31,22 @@ class NavbarPresenter extends Presenter
 	/**
 	 * {@inheritdoc }
 	 */
-	public function getActiveState($item)
+	public function getActiveState($item, $state = ' class="active"')
 	{
-		return \Request::is($item->getRequest()) ? ' class="active"' : null;
+		return $item->isActive() ? $state : null;
 	}
+
+    /**
+     * Get active state on child items.
+     *
+     * @param $item
+     * @param string $state
+     * @return null|string
+     */
+    public function getActiveStateOnChild($item, $state = 'active')
+    {
+        return $item->hasActiveOnChild() ? $state : null;
+    }
 
 	/**
 	 * {@inheritdoc }
@@ -44,12 +56,20 @@ class NavbarPresenter extends Presenter
 		return '<li class="divider"></li>';
 	}
 
+    /**
+     * {@inheritdoc }
+     */
+    public function getHeaderWrapper($item)
+    {
+        return '<li class="dropdown-header">' . $item->title . '</li>';
+    }
+
 	/**
 	 * {@inheritdoc }
 	 */
 	public function getMenuWithDropDownWrapper($item)
 	{
-		return '<li class="dropdown">
+		return '<li class="dropdown'. $this->getActiveStateOnChild($item, ' active') .'">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					'.$item->getIcon().' '.$item->title.'
 			      	<b class="caret"></b>
@@ -70,7 +90,7 @@ class NavbarPresenter extends Presenter
      */
     public function getMultiLevelDropdownWrapper($item)
     {
-        return '<li class="dropdown">
+        return '<li class="dropdown'. $this->getActiveStateOnChild($item, ' active') .'">
 		          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 					'.$item->getIcon().' '.$item->title.'
 			      	<b class="caret pull-right caret-right"></b>

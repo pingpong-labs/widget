@@ -33,6 +33,14 @@ class Presenter implements PresenterInterface
 	 */
 	public function getDividerWrapper() {}
 
+    /**
+     * Get header dropdown tag wrapper.
+     *
+     * @param  \Pingpong\Menus\MenuItem  $item
+     * @return string
+     */
+    public function getHeaderWrapper($item) {}
+
 	/**
 	 * Get menu tag with dropdown wrapper.
 	 *
@@ -63,6 +71,10 @@ class Presenter implements PresenterInterface
             if($child->hasSubMenu())
             {
                 $results.= $this->getMultiLevelDropdownWrapper(($child));
+            }
+            elseif($child->isHeader())
+            {
+                $results.= $this->getHeaderWrapper($child);
             }
 			elseif($child->isDivider())
 			{

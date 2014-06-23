@@ -72,12 +72,44 @@ class Builder
 	 */
 	public function style($name)
 	{
-		if(array_key_exists($name, $this->style))
+		if($this->hasStyle($name))
 		{
-			$this->setPresenter($this->style[$name]);
+			$this->setPresenter($this->getStyle($name));
 		}
 		return $this;
 	}
+
+    /**
+     * Determine if the given name in the presenter style.
+     *
+     * @param $name
+     * @return bool
+     */
+    protected function hasStyle($name)
+    {
+        return array_key_exists($name, $this->style);
+    }
+
+    /**
+     * Get the presenter class name by given alias name.
+     *
+     * @param $name
+     * @return mixed
+     */
+    protected function getStyle($name)
+    {
+        return $this->style[$name];
+    }
+
+    /**
+     * Set new presenter class from given alias name.
+     *
+     * @param $name
+     */
+    public function setPresenterFromStyle($name)
+    {
+        $this->setPresenter($this->getStyle($name));
+    }
 
 	/**
 	 * Add new child menu.
@@ -163,6 +195,7 @@ class Builder
 	public function addDivider()
 	{
 		$this->items[] = new MenuItem(array('name' => 'divider'));
+
 		return $this;
 	}
 
@@ -174,28 +207,49 @@ class Builder
 	 */
 	public function render($presenter = null)
 	{
-		if( ! is_null($presenter))
+        if($this->hasStyle($presenter))
+        {
+            $this->setPresenterFromStyle($presenter);
+        }
+
+		if( ! is_null($presenter) && ! $this->hasStyle($presenter))
 		{
 			$this->setPresenter($presenter);
 		}
 
-		$menu = $this->getPresenter()->getOpenTagWrapper();
-		foreach ($this->items as $item)
-		{
-			if($item->hasSubMenu())
-			{
-				$menu.= $this->getPresenter()->getMenuWithDropDownWrapper($item);
-			}	
-			elseif($item->isDivider())
-			{
-				$menu.= $this->getPresenter()->getDividerWrapper();
-			}
-			else
-			{
-				$menu.= $this->getPresenter()->getMenuWithoutDropdownWrapper($item);
-			}
-		}
-		$menu.= $this->getPresenter()->getCloseTagWrapper();
-		return $menu;
+        return $this->renderMenu();
 	}
+
+    /**
+     * Render the menu.
+     *
+     * @return string
+     */
+    protected function renderMenu()
+    {
+        $presenter  = $this->getPresenter();
+        $menu       = $presenter->getOpenTagWrapper();
+
+        foreach ($this->items as $item)
+        {
+            if ($item->hasSubMenu())
+            {
+                $menu .= $presenter->getMenuWithDropDownWrapper($item);
+            }
+            elseif($item->isHeader())
+            {
+                $menu .= $this->getHeaderWrapper($item);
+            }
+            elseif ($item->isDivider())
+            {
+                $menu .= $presenter->getDividerWrapper();
+            }
+            else
+            {
+                $menu .= $presenter->getMenuWithoutDropdownWrapper($item);
+            }
+        }
+        $menu .= $presenter->getCloseTagWrapper();
+        return $menu;
+    }
 }

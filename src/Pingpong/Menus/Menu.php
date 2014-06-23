@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\View;
 class Menu
 {
 	/**
+     * The menus collections.
+     *
 	 * @var array
 	 */
 	protected $menus = array();
@@ -22,8 +24,10 @@ class Menu
 	 */
 	public function make($name)
 	{
-		$builder 			= new Builder($name);
-		$this->menus[$name] = $builder;
+		$builder = new Builder($name);
+
+        $this->menus[$name] = $builder;
+
 		return $builder;
 	}
 
@@ -55,7 +59,7 @@ class Menu
 	 * Get instance of the given menu if exists.
 	 * 
 	 * @param  string $name 
-	 * @return string
+	 * @return string|null
 	 */
 	public function instance($name)
 	{
@@ -67,7 +71,7 @@ class Menu
 	 * 
 	 * @param  string $name 
 	 * @param  string $presenter 
-	 * @return string
+	 * @return string|null
 	 */
 	public function get($name, $presenter = null)
 	{

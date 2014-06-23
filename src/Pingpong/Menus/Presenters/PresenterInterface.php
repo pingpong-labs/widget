@@ -33,6 +33,14 @@ interface PresenterInterface
 	 */
 	public function getDividerWrapper();
 
+    /**
+     * Get divider tag wrapper.
+     *
+     * @param \Pingpong\Menus\MenuItem $item
+     * @return mixed
+     */
+    public function getHeaderWrapper($item);
+
 	/**
 	 * Get menu tag with dropdown wrapper.
 	 *
