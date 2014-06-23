@@ -54,8 +54,7 @@ php artisan config:publish pingpong/menus
 ```
 Done.
 
-### Screen
-shot
+### Screenshot
 
 ![View Screenshot](https://raw.githubusercontent.com/pingpong-labs/menus/master/shots/multilevel-menu-pingpong.png)
 
