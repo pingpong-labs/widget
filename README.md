@@ -1,10 +1,6 @@
 Laravel 4 - Simple Menus
 ========================
 
-### Readme
- 	
-[Klik disini](https://github.com/pingpong-labs/menus/blob/master/README-id.md) untuk membaca readme dalam Bahasa Indonesia.
-
 ### Installation
 
 First, open your `composer.json` file and add new package.
@@ -61,10 +57,6 @@ Done.
 ### Example Usage
 
 **NEW!**
-
-Status : Under Development
-
-Branch : `dev-master`
 
 On `app/menus.php` :
 ```php
