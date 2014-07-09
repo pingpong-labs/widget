@@ -1,15 +1,22 @@
 <?php namespace Pingpong\Widget;
 
-use Str;
-use Blade;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Blade;
 use Closure;
-use ReflectionFunction;
 use Pingpong\Widget\WidgetException as Exception;
+use Illuminate\Container\Container;
 
 class Widget
 {
-	/**
-	 * @var $widgets 
+    /**
+     * The IoC container instance.
+     *
+     * @var \Illuminate\Container\Container
+     */
+    protected $container;
+
+    /**
+	 * @var $widgets
 	 */
 	protected $widgets  = array();
 
@@ -17,6 +24,16 @@ class Widget
 	 * @var $groups 
 	 */
 	protected $groups = array();
+
+    /**
+     * Create a new instance and inject IoC container.
+     *
+     * @param  \Illuminate\Container\Container $container
+     */
+    public function __construct(Container $container = null)
+    {
+        $this->container = $container ?: new Container;
+    }
 
 	/**
 	 * Get all widgets.
@@ -49,38 +66,84 @@ class Widget
 	{
 		$this->groups[$name] = $widgets;
 
-		Blade::extend(function($view) use($name){
-			return preg_replace("/@$name\((.*)\)/", "<?php echo Widget::$name($1); ?>", $view);
-		});		
+        if (!getenv('SKIP_BLADE')) {
+
+            Blade::extend(function($view) use($name){
+                return preg_replace("/@$name\((.*)\)/", "<?php echo Widget::$name($1); ?>", $view);
+            });
+        }
 	}
 
 	/**
 	 * Register new widget.
 	 *
 	 * @param  string   $name
-	 * @param  CLosure  $callback
+	 * @param  mixed  $callback
 	 * @return void
 	 */
-	public function register($name, Closure $callback)
+	public function register($name, $callback)
 	{
 		$this->widgets[$name] 	= array(
 			'name'		=>	Str::slug($name, "_"),
-			'callback'	=>	$callback
+			'callback'	=>	$this->makeCallback($callback)
 		);
 
-		if($this->hasParams($callback))
-		{
-			Blade::extend(function($view) use($name){
-				return preg_replace("/@$name(.*)/", "<?php echo Widget::$name$1; ?>", $view);
-			});
-		}else
-		{
-			Blade::extend(function($view) use($name){
-				return preg_replace("/@$name/", "<?php echo Widget::$name(); ?>", $view);
-			});			
-		}
+        if (!getenv('SKIP_BLADE')) {
+
+            Blade::extend(function($view) use($name){
+                return preg_replace("/@$name\((.*)\)/", "<?php echo Widget::$name($1); ?>", $view);
+            });
+        }
+
 		return $this;
 	}
+
+    /**
+     * Make callback from input
+     *
+     * @param $callback
+     * @return mixed
+     */
+    public function makeCallback($callback)
+    {
+        if (is_string($callback))
+        {
+            $callback = $this->createClassCallback($callback);
+        }
+
+        return $callback;
+    }
+
+    /**
+     * Create a class based callback using the IoC container.
+     *
+     * @param  mixed    $callback
+     * @return \Closure
+     */
+    public function createClassCallback($callback)
+    {
+        $container = $this->container;
+
+        return function() use ($callback, $container)
+        {
+            // If the callback has an @ sign, we will assume it is being used to delimit
+            // the class name from the handle method name. This allows for handlers
+            // to run multiple handler methods in a single class for convenience.
+            $segments = explode('@', $callback);
+
+            $method = count($segments) == 2 ? $segments[1] : 'handle';
+
+            $callable = array($container->make($segments[0]), $method);
+
+            // We will make a callable of the listener instance and a method that should
+            // be called on that instance, then we will pass in the arguments that we
+            // received in this method into this listener class instance's methods.
+            $data = func_get_args();
+
+            return call_user_func_array($callable, $data);
+        };
+    }
+
 
 	/**
 	 * Determine if widget exists.
@@ -104,19 +167,6 @@ class Widget
 		return isset($this->groups[$group]);
 	}
 
-	/**
-	 * Determine if the closure have parameters.
-	 *
-	 * @param  Closure $callback
-	 * @return boolean
-	 */
-	protected function hasParams(Closure $callback)
-	{
-		$rf = new ReflectionFunction($callback);
-		$params =  $rf->getParameters();
-		return ! empty($params);
-	}
-	
 	/**
 	 * Get widget by given name.
 	 *
