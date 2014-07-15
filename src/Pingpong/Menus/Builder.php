@@ -1,8 +1,8 @@
 <?php namespace Pingpong\Menus;
 
-use Illuminate\Support\Facades\Config;
+use Illuminate\Config\Repository;
 
-class Builder
+class Builder implements \Countable
 {
 	/**
 	 * Menu name.
@@ -30,18 +30,28 @@ class Builder
 	 *
 	 * @var array
 	 */
-	protected $style;
+	protected $styles;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param  string  $menu
 	 */
-	public function __construct($menu)
+	public function __construct($menu, Repository $config)
 	{
 		$this->menu 	= $menu;
-		$this->style 	= Config::get('menus::styles');
+        $this->config   = $config;
 	}
+
+    /**
+     * Set styles.
+     * 
+     * @param array $styles 
+     */
+    public function setStyles(array $styles)
+    {
+        $this->styles = $styles;
+    }
 
 	/**
 	 * Set new presenter class.
@@ -87,7 +97,17 @@ class Builder
      */
     protected function hasStyle($name)
     {
-        return array_key_exists($name, $this->style);
+        return array_key_exists($name, $this->getStyles());
+    }
+
+    /**
+     * Get style aliases.
+     * 
+     * @return mixed 
+     */
+    public function getStyles()
+    {
+        return $this->styles ?: $this->config->get('menus::styles');
     }
 
     /**
@@ -98,7 +118,9 @@ class Builder
      */
     protected function getStyle($name)
     {
-        return $this->style[$name];
+        $style = $this->getStyles();
+
+        return $style[$name];
     }
 
     /**
@@ -198,6 +220,16 @@ class Builder
 
 		return $this;
 	}
+
+    /**
+     * Get items count.
+     * 
+     * @return int 
+     */
+    public function count()
+    {
+        return count($this->items);
+    }
 
 	/**
 	 * Render the menu to HTML tag.

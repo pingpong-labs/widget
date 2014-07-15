@@ -44,7 +44,7 @@ class MenusServiceProvider extends ServiceProvider {
 	{
         $this->app['menus'] = $this->app->share(function($app)
         {
-        	return new Menu;
+        	return new Menu($app['view'], $app['config']);
         });
 	}
 

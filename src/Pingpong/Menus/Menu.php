@@ -1,13 +1,15 @@
 <?php namespace Pingpong\Menus;
 
 use Closure;
-use Illuminate\Support\Facades\View;
+use Countable;
+use Illuminate\View\Factory;
+use Illuminate\Config\Repository;
 
 /**
  * Class Menu
  * @package Pingpong\Menus
  */
-class Menu
+class Menu implements Countable
 {
 	/**
      * The menus collections.
@@ -17,6 +19,18 @@ class Menu
 	protected $menus = array();
 
 	/**
+	 * The constructor.
+	 * 
+	 * @param Factory    $views  
+	 * @param Repository $config 
+	 */
+	public function __construct(Factory $views, Repository $config)
+	{
+		$this->views  = $views;	
+		$this->config = $config;	
+	}
+
+	/**
 	 * Make new menu.
 	 *
 	 * @param  string $name 
@@ -24,7 +38,7 @@ class Menu
 	 */
 	public function make($name)
 	{
-		$builder = new Builder($name);
+		$builder = new Builder($name, $this->config);
 
         $this->menus[$name] = $builder;
 
@@ -41,6 +55,7 @@ class Menu
 	public function create($name, Closure $resolver)
 	{
 		$menus = $this->make($name);
+
 		return $resolver($menus);
 	}
 
@@ -97,7 +112,7 @@ class Menu
      */
     public function style()
     {
-        return View::make('menus::style')->render();
+        return $this->views->make('menus::style')->render();
     }
 
     /**
@@ -108,5 +123,15 @@ class Menu
     public function all()
     {
         return $this->menus;
+    }
+
+    /**
+     * Get count from all menus.
+     * 
+     * @return int 
+     */
+    public function count()
+    {
+    	return count($this->menus);
     }
 }
