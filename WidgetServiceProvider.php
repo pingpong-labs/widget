@@ -1,5 +1,6 @@
 <?php namespace Pingpong\Widget;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Pingpong\Widget\WidgetException as Exception;
 
@@ -19,7 +20,7 @@ class WidgetServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('pingpong/widget', 'widget');
+		$this->package('pingpong/widget');
 	}
 
 	/**
@@ -29,23 +30,21 @@ class WidgetServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['widget'] = $this->app->share(function($app)
+		$this->app['pingpong.widget'] = $this->app->share(function($app)
 		{
-			return new Widget;
+			$blade = $app['view']->getEngineResolver()->resolve('blade')->getCompiler();
+
+			return new Widget($blade, $app);
 		});
+
 		$this->app->booting(function()
 		{
-			$loader = \Illuminate\Foundation\AliasLoader::getInstance();
+			$loader = AliasLoader::getInstance();
 			$loader->alias('Widget', 'Pingpong\Widget\Facades\Widget');
 
-			$widgetFile = app_path('widgets.php');
-			if(file_exists($widgetFile))
-			{
-				include $widgetFile;
-			}else
-			{
-				throw new Exception("Widget file not found!");
-			}
+			$file = app_path('widgets.php');
+			
+			if(file_exists($file)) include $file;
 		});
 	}
 
@@ -56,7 +55,7 @@ class WidgetServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('widget');
+		return array('pingpong.widget');
 	}
 
 }
