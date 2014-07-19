@@ -1,141 +1,175 @@
-Simple Widget System - Laravel 4.*
-=========
+Simple Widget System for Laravel 4
+==================================
 
-Simple widget system for create awesome feature on blade templating Laravel 4
+### Installation
 
-[![Build Status](https://travis-ci.org/gravitano/widget.svg?branch=master)](https://travis-ci.org/gravitano/widget)
-[![Latest Stable Version](https://poser.pugx.org/pingpong/widget/v/stable.png)](https://packagist.org/packages/pingpong/widget) [![Total Downloads](https://poser.pugx.org/pingpong/widget/downloads.png)](https://packagist.org/packages/pingpong/widget) [![Latest Unstable Version](https://poser.pugx.org/pingpong/widget/v/unstable.png)](https://packagist.org/packages/pingpong/widget) [![License](https://poser.pugx.org/pingpong/widget/license.png)](https://packagist.org/packages/pingpong/widget)
-
-## Donation
-
-If you find this source is useful, you can share some milk to me if you want ^_^
-
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=95ZPLBB8U3T9N)
-
-## Installation
-Open your composer.json file, and add the new required package.
+Open your composer.json file and add the new required package.
 
 ```
-  "pingpong/widget": "1.0.*" 
+    "pingpong/widget" : "1.0.*"
 ```
 
-Next, open a terminal and run.
+Next, open your terminal and run `composer update`.
 
-```
-  composer update 
+After composer updated, add new service provider in `app/config/app.php` :
+
+```php
+    'Pingpong\Widget\WidgetServiceProvider',
 ```
 
-After the composer updated. Add new service provider in app/config/app.php.
+Next, add new alias in `app/config/app.php`
 
-```
-  'Pingpong\Widget\WidgetServiceProvider'
+```php
+    'Widget'  => 'Pingpong\Widget\Facades\Widget',
 ```
 
 Done.
 
-## Example 
+### Registering A Widget
 
-### Registering your widget
-To register your widget, simply create a file `widgets.php` in your `app` folder and put your widgets code in that file. Like this.
+By default you can register a widget in `app/widgets.php`, that file will autoload automatically.
 
-```
-laravel/
-|-- app/
-	|-- commands/
-	...
-	|-- views/
-	|-- filters.php
-	|-- routes.php
-	|-- widgets.php
-|-- bootstrap/
-|-- vendor/
-```
-
-Simple Widget :
-```php
-
-Widget::register('awesome', function(){
-
-	return View::make('awesome');
-
-});
-```
-Widgets with one or more parameters:
+Via Closure.
 
 ```php
+// app/widgets.php
 
-Widget::register('hello', function($name){
-
-	return "Hello, $name !";
-
+Widget::register('small', function($contents)
+{
+	return "<small>{$contents}</small>";
 });
 
-Widget::register('box', function($title, $description){
-
-	return View::make('widgets.box', compact('title', 'description'));
-
+Widget::register('view', function($view, $data = array(), $mergeData = array()
+{
+	return View::make($view, $data, $mergeData)->render();
 });
 
 ```
 
-Widget grouping of widgets that have previously been defined.
+Via Class Name. 
+
+By default will call `register` method.
+
+```php
+class MyWidget {
+
+	public function register($contents, $attributes = array())
+	{
+	    $attributes = HTML::attributes($attributes);
+	    
+		return "<h1{$attributes}>{$contents}</h1>";
+	}
+
+} 
+
+Widget::register('h1', 'MyWidget');
+```
+
+Via Class Name with the specified method.
 
 ```php
 
-// First, you must registering one or more widget
+class TagCreator {
+	
+	public function create($tag, $contents, $attributes = array())
+	{
+		$attributes = HTML::attributes($attributes);
 
-Widget::register('categories', function(){
-	return View::make('widgets.categories');
-});
+		return "<{$tag}{$attributes}>{$contents}</{$tag}>";
+	}
 
-Widget::register('latestPost', function(){
-	return View::make('widgets.latestPost');
-});
+} 
 
-// Next, you can group some widgets like this:
+class HTMLWidget {
 
-Widget::group('sidebar', array('categories', 'latestPost'));
+	protected $tag;
 
-Widget::group('footer', array('hello', 'box'));
+	public function __construct(TagCreator $tag)
+	{
+		$this->tag = $tag;
+	}
+
+	public function p($contents, $attributes = array())
+	{
+		return $this->tag->create('p', $contents, $attributes);
+	}
+
+	public function div($contents, $attributes = array())
+	{
+		return $this->tag->create('div', $contents, $attributes);
+	}
+} 
+Widget::register('p', 'HTMLWidget@p');
+
+Widget::register('div', 'HTMLWidget@div');
 
 ```
 
-### Calling your widget 
+### Calling A Widget
 
-Globally calling the widget just like below:
 ```php
+Widget::get('small', array('My Content'));
 
-Widget::awesome();
+Widget::call('small', array('My Content'));
 
-Widget::hello('Jhon');
+Widget::small('My Content');
 
-Widget::box('Latest News', 'This is a description of latest news');
+Widget::p('My Content');
 
-// calling widget group just like below
-// Widget::$name();
+Widget::div('My Content');
+
+Widget::h1('My Content');
+```
+
+On view you can call like this.
+
+```
+@small('My Content')
+
+@view('users.show', $data, $mergeData)
+
+@h1('Welcome!')
+
+@p('Hello World', array('class' => 'page-header'));
+
+@div('Lorem ipsum', array('class' => 'alert alert-warning'));
+```
+
+### Grouping A Widget
+
+It is very easy to group widget. you only need to specify the group name and specify an array of the names of the widgets that will be grouped.
+
+```php
+Widget::register('calendar', 'SidebarWidget@calendar')
+
+Widget::register('archive', 'SidebarWidget@archive')
+
+Widget::group('sidebar', array('calendar', 'archive'));
+```
+
+To call a group of widgets is the same as calling the widget.
+
+```php
 Widget::sidebar();
-
-// calling widget group which parameters just like below
-// Widget::$name($params1, $params2, $params3, ....);
-Widget::box(array('name'), array('My Tweets', '.....Latest Tweets'));
-
 ```
-simple calling widget on view :
+
+If you want to send parameters to the widget that is in the group, you can call it like this.
 
 ```php
+Widget::sidebar(
+	array('your-first-param', 'your-second-param'),
+	array('first-param-for-second-widget', 'the-second')
+);
+```
 
-@awesome
+On view you can call a group of widgets is same as calling the widget.
 
-@hello('John')
-
-//calling group widget
-
+```
 @sidebar()
 
-@box(array('name'), array('My Tweets', '.....Latest Tweets'))
-
+@sidebar(array('first-param'), array('first-param-for-second-widget'))
 ```
 
-## License
+### License
 
 This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

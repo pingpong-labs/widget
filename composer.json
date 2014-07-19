@@ -2,21 +2,20 @@
     "name": "pingpong/widget",
     "description": "Laravel 4 - Simple Widget System",
     "keywords": ["widget", "laravel", "pingpong"],
-    "homepage": "http://www.gravitano.com/simple-widget-system-for-laravel-4",
     "license": "The MIT License (MIT)",
     "authors": [
         {
-            "name": "PiNGPONG Labs",
+            "name": "Pingpong Labs",
             "email": "pingpong.labs@gmail.com"
         }
     ],
     "require": {
         "php": ">=5.3.0",
-        "laravel/framework": ">=4.1.0"
+        "laravel/framework": "4.*"
     },
     "require-dev": {
-        "mockery/mockery": "dev-master",
-        "phpunit/phpunit": "3.7.*"
+        "mockery/mockery": "0.9.*",
+        "phpunit/phpunit": "4.1.*"
     },
     "autoload": {
         "psr-4": {
