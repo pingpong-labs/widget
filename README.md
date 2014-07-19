@@ -20,12 +20,6 @@ After composer updated, add new service provider in `app/config/app.php` :
     'Pingpong\Widget\WidgetServiceProvider',
 ```
 
-Next, add new alias in `app/config/app.php`
-
-```php
-    'Widget'  => 'Pingpong\Widget\Facades\Widget',
-```
-
 Done.
 
 ### Registering A Widget
