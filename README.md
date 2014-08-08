@@ -1,6 +1,8 @@
 Laravel 4 - Simple Menus
 ========================
 
+[![Build Status](https://travis-ci.org/pingpong-labs/menus.svg)](https://travis-ci.org/pingpong-labs/menus)
+
 ### Installation
 
 First, open your `composer.json` file and add new package.
