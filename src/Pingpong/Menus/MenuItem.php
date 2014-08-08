@@ -384,7 +384,7 @@ class MenuItem implements ArrayableInterface
      */
     protected function hasRoute()
     {
-        return !empty($this->route);
+        return ! empty($this->route);
     }
 
     /**

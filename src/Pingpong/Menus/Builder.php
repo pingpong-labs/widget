@@ -30,7 +30,7 @@ class Builder implements \Countable
 	 *
 	 * @var array
 	 */
-	protected $styles;
+	protected $styles = array();
 
 	/**
 	 * Constructor.
@@ -95,7 +95,7 @@ class Builder implements \Countable
      * @param $name
      * @return bool
      */
-    protected function hasStyle($name)
+    public function hasStyle($name)
     {
         return array_key_exists($name, $this->getStyles());
     }
@@ -116,7 +116,7 @@ class Builder implements \Countable
      * @param $name
      * @return mixed
      */
-    protected function getStyle($name)
+    public function getStyle($name)
     {
         $style = $this->getStyles();
 
