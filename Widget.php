@@ -29,17 +29,16 @@ class Widget {
 	}
 
 	protected function registerBlade($name)
-	{
-		$this->blade->extend(function($view) use ($name)
-		{
-			return $this->createReplacement($name, $view);
-		});
-	}
+    {
+        $this->blade->extend(function($view, $compiler) use ($name)
+        {
+            $pattern = $compiler->createMatcher($name);
+    
+            $replace = '$1<?php echo Widget::' . $name . '$2; ?>';
 
-	protected function createReplacement($name, $view)
-	{
-		return preg_replace("/@$name\((.*)\)/",	"<?php echo Widget::$name($1); ?>", $view);
-	}
+            return preg_replace($pattern, $replace, $view);
+        });
+    }
 
 	public function has($name)
 	{
