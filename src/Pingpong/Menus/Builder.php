@@ -231,6 +231,16 @@ class Builder implements \Countable
         return count($this->items);
     }
 
+    /**
+     * Empty the current menu items.
+     * 
+     * @return void 
+     */
+    public function destroy()
+    {
+        $this->items = array();
+    }
+
 	/**
 	 * Render the menu to HTML tag.
 	 *
