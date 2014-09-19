@@ -134,4 +134,15 @@ class Menu implements Countable
     {
     	return count($this->menus);
     }
+
+    /**
+     * Empty the current menus.
+     * 
+     * @return void 
+     */
+    public function destroy()
+    {
+        $this->menus = array();
+    }
+    
 }
