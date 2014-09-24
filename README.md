@@ -20,6 +20,12 @@ After composer updated, add new service provider in `app/config/app.php` :
     'Pingpong\Widget\WidgetServiceProvider',
 ```
 
+And add facade in the same file
+
+```php
+    'Widget' => 'Pingpong\Widget\Facades\Widget'
+```
+
 Done.
 
 ### Registering A Widget
