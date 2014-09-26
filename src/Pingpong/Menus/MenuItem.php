@@ -10,34 +10,34 @@ class MenuItem implements ArrayableInterface
     /**
      * Array properties.
      *
-	 * @var array
-	 */
-	protected $properties;
+     * @var array
+     */
+    protected $properties;
 
-	/**
+    /**
      * The child collections for current menu item.
      *
-	 * @var array
-	 */
-	protected $childs = array();
+     * @var array
+     */
+    protected $childs = array();
 
-	/**
+    /**
      * The fillable attribute.
      *
-	 * @var array
-	 */
-	protected $fillable = array('url', 'route', 'title', 'name', 'icon', 'parent', 'attributes');
+     * @var array
+     */
+    protected $fillable = array('url', 'route', 'title', 'name', 'icon', 'parent', 'attributes');
 
-	/**
-	 * Constructor.
-	 *
-	 * @param array $properties
-	 */
-	public function __construct($properties = array())
-	{
-		$this->properties = $properties;
-		$this->fill($properties);
-	}
+    /**
+     * Constructor.
+     *
+     * @param array $properties
+     */
+    public function __construct($properties = array())
+    {
+        $this->properties = $properties;
+        $this->fill($properties);
+    }
 
     /**
      * Set the icon property when the icon is defined in the link attributes.
@@ -83,22 +83,22 @@ class MenuItem implements ArrayableInterface
         return new static($properties);
     }
 
-	/**
-	 * Fill the attributes.
-	 *
-	 * @param  array  $attributes
-	 * @return void
-	 */
-	public function fill($attributes)
-	{
-		foreach ($attributes as $key => $value)
-		{
-			if(in_array($key, $this->fillable))
-			{
-				$this->{$key} = $value;
-			}
-		}
-	}
+    /**
+     * Fill the attributes.
+     *
+     * @param  array  $attributes
+     * @return void
+     */
+    public function fill($attributes)
+    {
+        foreach ($attributes as $key => $value)
+        {
+            if(in_array($key, $this->fillable))
+            {
+                $this->{$key} = $value;
+            }
+        }
+    }
 
     /**
      * Create new menu child item using array.
@@ -111,7 +111,7 @@ class MenuItem implements ArrayableInterface
         $this->childs[] = static::make($attributes);
 
         return $this;
-	}
+    }
 
     /**
      * Register new child menu with dropdown.
@@ -175,16 +175,16 @@ class MenuItem implements ArrayableInterface
     }
 
     /**
-	 * Add new divider.
-	 *
-	 * @return self
-	 */
-	public function addDivider()
-	{
-		$this->childs[] = static::make(array('name' => 'divider'));
+     * Add new divider.
+     *
+     * @return self
+     */
+    public function addDivider()
+    {
+        $this->childs[] = static::make(array('name' => 'divider'));
 
-		return $this;
-	}
+        return $this;
+    }
 
     /**
      * Alias method instead "addDivider".
@@ -223,46 +223,46 @@ class MenuItem implements ArrayableInterface
         return $this->addHeader($title);
     }
 
-	/**
-	 * Get childs.
-	 *
-	 * @return array
-	 */
-	public function getChilds()
-	{
-		return $this->childs;
-	}
+    /**
+     * Get childs.
+     *
+     * @return array
+     */
+    public function getChilds()
+    {
+        return $this->childs;
+    }
 
-	/**
-	 * Get url.
-	 *
-	 * @return string
-	 */
-	public function getUrl()
-	{
-		return ! empty($this->route) ? route($this->route[0], $this->route[1]) : url($this->url);
-	}
+    /**
+     * Get url.
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return ! empty($this->route) ? route($this->route[0], $this->route[1]) : url($this->url);
+    }
 
-	/**
-	 * Get request url.
-	 *
-	 * @return string
-	 */
-	public function getRequest()
-	{
-		return ltrim(str_replace(url(), '', $this->getUrl()), '/');
-	}
+    /**
+     * Get request url.
+     *
+     * @return string
+     */
+    public function getRequest()
+    {
+        return ltrim(str_replace(url(), '', $this->getUrl()), '/');
+    }
 
-	/**
-	 * Get icon.
-	 *
-	 * @param  null|string $default
-	 * @return string
-	 */
-	public function getIcon($default = null)
-	{
-		return ! is_null($this->icon) ? '<i class="'. $this->icon .'"></i>' : $default;
-	}
+    /**
+     * Get icon.
+     *
+     * @param  null|string $default
+     * @return string
+     */
+    public function getIcon($default = null)
+    {
+        return ! is_null($this->icon) ? '<i class="'. $this->icon .'"></i>' : $default;
+    }
 
     /**
      * Get properties.
@@ -284,15 +284,15 @@ class MenuItem implements ArrayableInterface
         return HTML::attributes($this->attributes);
     }
 
-	/**
-	 * Check is the current item divider.
-	 *
-	 * @return boolean
-	 */
-	public function isDivider()
-	{
-		return $this->is('divider');
-	}
+    /**
+     * Check is the current item divider.
+     *
+     * @return boolean
+     */
+    public function isDivider()
+    {
+        return $this->is('divider');
+    }
 
     /**
      * Check is the current item divider.
@@ -315,15 +315,15 @@ class MenuItem implements ArrayableInterface
         return $this->name == $name;
     }
 
-	/**
-	 * Check is the current item has sub menu .
-	 *
-	 * @return boolean
-	 */
-	public function hasSubMenu()
-	{
-		return ! empty($this->childs);
-	}
+    /**
+     * Check is the current item has sub menu .
+     *
+     * @return boolean
+     */
+    public function hasSubMenu()
+    {
+        return ! empty($this->childs);
+    }
 
     /**
      * Same with hasSubMenu.
@@ -394,7 +394,7 @@ class MenuItem implements ArrayableInterface
      */
     protected function getActiveStateFromRoute()
     {
-        return Route::is($this->route[0]);
+        return Request::is(str_replace(url() . '/', '', $this->getUrl()));
     }
 
     /**
@@ -418,13 +418,13 @@ class MenuItem implements ArrayableInterface
     }
 
     /**
-	 * Get property.
-	 *
-	 * @param  string  $key
-	 * @return string|null
-	 */
-	public function __get($key)
-	{
-		return isset($this->$key) ? $this->$key : null;
-	}
+     * Get property.
+     *
+     * @param  string  $key
+     * @return string|null
+     */
+    public function __get($key)
+    {
+        return isset($this->$key) ? $this->$key : null;
+    }
 }
