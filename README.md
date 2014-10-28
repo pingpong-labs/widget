@@ -1,4 +1,4 @@
-Simple Widget System for Laravel 4
+Simple Widget System for Laravel Framework
 ==================================
 
 [![Build Status](https://travis-ci.org/gravitano/widget.svg?branch=master)](https://travis-ci.org/gravitano/widget)
