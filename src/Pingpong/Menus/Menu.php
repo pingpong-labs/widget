@@ -5,12 +5,8 @@ use Countable;
 use Illuminate\View\Factory;
 use Illuminate\Config\Repository;
 
-/**
- * Class Menu
- * @package Pingpong\Menus
- */
-class Menu implements Countable
-{
+class Menu implements Countable {
+
 	/**
      * The menus collections.
      *

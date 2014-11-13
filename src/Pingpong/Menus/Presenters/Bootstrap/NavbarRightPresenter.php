@@ -1,7 +1,7 @@
 <?php namespace Pingpong\Menus\Presenters\Bootstrap;
 
-class NavbarRightPresenter extends NavbarPresenter
-{
+class NavbarRightPresenter extends NavbarPresenter {
+
 	/**
 	 * {@inheritdoc }
 	 */
@@ -27,4 +27,5 @@ class NavbarRightPresenter extends NavbarPresenter
 		      	. PHP_EOL;
 		;
 	}
+	
 }

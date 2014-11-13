@@ -2,8 +2,8 @@
 
 use Pingpong\Menus\Presenters\Presenter;
 
-class NavbarPresenter extends Presenter
-{
+class NavbarPresenter extends Presenter {
+
 	/**
 	 * {@inheritdoc }
 	 */
@@ -102,4 +102,5 @@ class NavbarPresenter extends Presenter
         . PHP_EOL;
         ;
     }
+    
 }

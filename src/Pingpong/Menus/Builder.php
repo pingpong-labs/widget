@@ -2,8 +2,8 @@
 
 use Illuminate\Config\Repository;
 
-class Builder implements \Countable
-{
+class Builder implements \Countable {
+    
 	/**
 	 * Menu name.
 	 *

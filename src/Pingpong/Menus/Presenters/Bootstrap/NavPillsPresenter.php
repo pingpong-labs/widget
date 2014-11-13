@@ -1,7 +1,7 @@
 <?php namespace Pingpong\Menus\Presenters\Bootstrap;
 
-class NavPillsPresenter extends NavbarPresenter
-{
+class NavPillsPresenter extends NavbarPresenter {
+
 	/**
 	 * {@inheritdoc }
 	 */
@@ -9,4 +9,5 @@ class NavPillsPresenter extends NavbarPresenter
 	{
 		return  PHP_EOL . '<ul class="nav nav-pills">' . PHP_EOL;
 	}
+	
 }

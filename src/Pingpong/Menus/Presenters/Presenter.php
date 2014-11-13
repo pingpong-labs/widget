@@ -2,8 +2,8 @@
 
 use Pingpong\Menus\MenuItem;
 
-class Presenter implements PresenterInterface
-{
+class Presenter implements PresenterInterface {
+	
 	/**
 	 * Get open tag wrapper.
 	 *
