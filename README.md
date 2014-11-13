@@ -2,6 +2,7 @@ Laravel Menus
 ========================
 
 [![Build Status](https://travis-ci.org/pingpong-labs/menus.svg)](https://travis-ci.org/pingpong-labs/menus)
+[![Latest Stable Version](https://poser.pugx.org/pingpong/menus/v/stable.svg)](https://packagist.org/packages/pingpong/menus) [![Total Downloads](https://poser.pugx.org/pingpong/menus/downloads.svg)](https://packagist.org/packages/pingpong/menus) [![Latest Unstable Version](https://poser.pugx.org/pingpong/menus/v/unstable.svg)](https://packagist.org/packages/pingpong/menus) [![License](https://poser.pugx.org/pingpong/menus/license.svg)](https://packagist.org/packages/pingpong/menus)
 
 ### Installation
 
