@@ -1,4 +1,4 @@
-Laravel 4 - Simple Menus
+Laravel Menus
 ========================
 
 [![Build Status](https://travis-ci.org/pingpong-labs/menus.svg)](https://travis-ci.org/pingpong-labs/menus)
