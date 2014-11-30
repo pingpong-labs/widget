@@ -155,9 +155,9 @@ class Builder implements \Countable {
      * @param callable $callback
      * @return $this
      */
-    public function dropdown($title, \Closure $callback)
+    public function dropdown($title, \Closure $callback, array $attributes = array())
     {
-        $item = MenuItem::make(compact('title'));
+        $item = MenuItem::make(compact('title') + $attributes);
 
         call_user_func($callback, $item);
 
