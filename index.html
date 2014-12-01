@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Widget by gravitano</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Widget</h1>
+        <h2>Simple Widget System for Laravel Framework</h2>
+        <a href="https://github.com/gravitano/widget" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="simple-widget-system-for-laravel-framework" class="anchor" href="#simple-widget-system-for-laravel-framework" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simple Widget System for Laravel Framework</h1>
+
+<p><a href="https://travis-ci.org/gravitano/widget"><img src="https://travis-ci.org/gravitano/widget.svg?branch=master" alt="Build Status"></a>
+<a href="https://packagist.org/packages/pingpong/widget"><img src="https://poser.pugx.org/pingpong/widget/v/stable.svg" alt="Latest Stable Version"></a> <a href="https://packagist.org/packages/pingpong/widget"><img src="https://poser.pugx.org/pingpong/widget/downloads.svg" alt="Total Downloads"></a> <a href="https://packagist.org/packages/pingpong/widget"><img src="https://poser.pugx.org/pingpong/widget/v/unstable.svg" alt="Latest Unstable Version"></a> <a href="https://packagist.org/packages/pingpong/widget"><img src="https://poser.pugx.org/pingpong/widget/license.svg" alt="License"></a></p>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<p>Open your composer.json file and add the new required package.</p>
+
+<pre><code>    "pingpong/widget" : "1.0.*"
+</code></pre>
+
+<p>Next, open your terminal and run <code>composer update</code>.</p>
+
+<p>After composer updated, add new service provider in <code>app/config/app.php</code> :</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2">    <span class="pl-s1"><span class="pl-pds">'</span>Pingpong\Widget\WidgetServiceProvider<span class="pl-pds">'</span></span>,</span></pre></div>
+
+<p>And add facade in the same file</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2">    <span class="pl-s1"><span class="pl-pds">'</span>Widget<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s1"><span class="pl-pds">'</span>Pingpong\Widget\Facades\Widget<span class="pl-pds">'</span></span></span></pre></div>
+
+<p>Done.</p>
+
+<h3>
+<a id="registering-a-widget" class="anchor" href="#registering-a-widget" aria-hidden="true"><span class="octicon octicon-link"></span></a>Registering A Widget</h3>
+
+<p>By default you can register a widget in <code>app/widgets.php</code>, that file will autoload automatically.</p>
+
+<p>Via Closure.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-c">// app/widgets.php</span></span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>register(<span class="pl-s1"><span class="pl-pds">'</span>small<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vo">$contents</span>)</span>
+<span class="pl-s2">{</span>
+<span class="pl-s2">    <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">"</span>&lt;small&gt;{<span class="pl-vo">$contents</span>}&lt;/small&gt;<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>register(<span class="pl-s1"><span class="pl-pds">'</span>view<span class="pl-pds">'</span></span>, <span class="pl-st">function</span>(<span class="pl-vo">$view</span>, <span class="pl-vo">$data</span> <span class="pl-k">=</span> <span class="pl-s3">array</span>(), <span class="pl-vo">$mergeData</span> <span class="pl-k">=</span> <span class="pl-s3">array</span>()</span>
+<span class="pl-s2">{</span>
+<span class="pl-s2">    <span class="pl-c1">return</span> <span class="pl-s3">View</span><span class="pl-k">::</span><span class="pl-c1">make</span>(<span class="pl-vo">$view</span>, <span class="pl-vo">$data</span>, <span class="pl-vo">$mergeData</span>)-&gt;render();</span>
+<span class="pl-s2">});</span>
+<span class="pl-s2"></span></pre></div>
+
+<p>Via Class Name. </p>
+
+<p>By default will call <code>register</code> method.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-st">class</span> <span class="pl-en">MyWidget</span> {</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">    <span class="pl-s">public</span> <span class="pl-st">function</span> <span class="pl-en">register</span>(<span class="pl-vo">$contents</span>, <span class="pl-vo">$attributes</span> <span class="pl-k">=</span> <span class="pl-s3">array</span>())</span>
+<span class="pl-s2">    {</span>
+<span class="pl-s2">        <span class="pl-vo">$attributes</span> <span class="pl-k">=</span> <span class="pl-s3">HTML</span><span class="pl-k">::</span>attributes(<span class="pl-vo">$attributes</span>);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">        <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">"</span>&lt;h1{<span class="pl-vo">$attributes</span>}&gt;{<span class="pl-vo">$contents</span>}&lt;/h1&gt;<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">} </span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>register(<span class="pl-s1"><span class="pl-pds">'</span>h1<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>MyWidget<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<p>Via Class Name with the specified method.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-st">class</span> <span class="pl-en">TagCreator</span> {</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">    <span class="pl-s">public</span> <span class="pl-st">function</span> <span class="pl-en">create</span>(<span class="pl-vo">$tag</span>, <span class="pl-vo">$contents</span>, <span class="pl-vo">$attributes</span> <span class="pl-k">=</span> <span class="pl-s3">array</span>())</span>
+<span class="pl-s2">    {</span>
+<span class="pl-s2">        <span class="pl-vo">$attributes</span> <span class="pl-k">=</span> <span class="pl-s3">HTML</span><span class="pl-k">::</span>attributes(<span class="pl-vo">$attributes</span>);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">        <span class="pl-k">return</span> <span class="pl-s1"><span class="pl-pds">"</span>&lt;{<span class="pl-vo">$tag</span>}{<span class="pl-vo">$attributes</span>}&gt;{<span class="pl-vo">$contents</span>}&lt;/{<span class="pl-vo">$tag</span>}&gt;<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">} </span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-st">class</span> <span class="pl-en">HTMLWidget</span> {</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">    <span class="pl-s">protected</span> <span class="pl-vo">$tag</span>;</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">    <span class="pl-s">public</span> <span class="pl-st">function</span> <span class="pl-s3">__construct</span>(<span class="pl-s3">TagCreator</span> <span class="pl-vo">$tag</span>)</span>
+<span class="pl-s2">    {</span>
+<span class="pl-s2">        <span class="pl-vo">$this</span><span class="pl-k">-&gt;</span><span class="pl-vo">tag</span> <span class="pl-k">=</span> <span class="pl-vo">$tag</span>;</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">    <span class="pl-s">public</span> <span class="pl-st">function</span> <span class="pl-en">p</span>(<span class="pl-vo">$contents</span>, <span class="pl-vo">$attributes</span> <span class="pl-k">=</span> <span class="pl-s3">array</span>())</span>
+<span class="pl-s2">    {</span>
+<span class="pl-s2">        <span class="pl-k">return</span> <span class="pl-vo">$this</span><span class="pl-k">-&gt;</span><span class="pl-vo">tag</span><span class="pl-k">-&gt;</span>create(<span class="pl-s1"><span class="pl-pds">'</span>p<span class="pl-pds">'</span></span>, <span class="pl-vo">$contents</span>, <span class="pl-vo">$attributes</span>);</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2"></span>
+<span class="pl-s2">    <span class="pl-s">public</span> <span class="pl-st">function</span> <span class="pl-en">div</span>(<span class="pl-vo">$contents</span>, <span class="pl-vo">$attributes</span> <span class="pl-k">=</span> <span class="pl-s3">array</span>())</span>
+<span class="pl-s2">    {</span>
+<span class="pl-s2">        <span class="pl-k">return</span> <span class="pl-vo">$this</span><span class="pl-k">-&gt;</span><span class="pl-vo">tag</span><span class="pl-k">-&gt;</span>create(<span class="pl-s1"><span class="pl-pds">'</span>div<span class="pl-pds">'</span></span>, <span class="pl-vo">$contents</span>, <span class="pl-vo">$attributes</span>);</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2">} </span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>register(<span class="pl-s1"><span class="pl-pds">'</span>p<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>HTMLWidget@p<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>register(<span class="pl-s1"><span class="pl-pds">'</span>div<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>HTMLWidget@div<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s2"></span></pre></div>
+
+<h3>
+<a id="calling-a-widget" class="anchor" href="#calling-a-widget" aria-hidden="true"><span class="octicon octicon-link"></span></a>Calling A Widget</h3>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>get(<span class="pl-s1"><span class="pl-pds">'</span>small<span class="pl-pds">'</span></span>, <span class="pl-s3">array</span>(<span class="pl-s1"><span class="pl-pds">'</span>My Content<span class="pl-pds">'</span></span>));</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>call(<span class="pl-s1"><span class="pl-pds">'</span>small<span class="pl-pds">'</span></span>, <span class="pl-s3">array</span>(<span class="pl-s1"><span class="pl-pds">'</span>My Content<span class="pl-pds">'</span></span>));</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>small(<span class="pl-s1"><span class="pl-pds">'</span>My Content<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>p(<span class="pl-s1"><span class="pl-pds">'</span>My Content<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>div(<span class="pl-s1"><span class="pl-pds">'</span>My Content<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>h1(<span class="pl-s1"><span class="pl-pds">'</span>My Content<span class="pl-pds">'</span></span>);</span></pre></div>
+
+<p>On view you can call like this.</p>
+
+<pre><code>@small('My Content')
+
+@view('users.show', $data, $mergeData)
+
+@h1('Welcome!')
+
+@p('Hello World', array('class' =&gt; 'page-header'));
+
+@div('Lorem ipsum', array('class' =&gt; 'alert alert-warning'));
+</code></pre>
+
+<h3>
+<a id="grouping-a-widget" class="anchor" href="#grouping-a-widget" aria-hidden="true"><span class="octicon octicon-link"></span></a>Grouping A Widget</h3>
+
+<p>It is very easy to group widget. you only need to specify the group name and specify an array of the names of the widgets that will be grouped.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>register(<span class="pl-s1"><span class="pl-pds">'</span>calendar<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>SidebarWidget@calendar<span class="pl-pds">'</span></span>)</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>register(<span class="pl-s1"><span class="pl-pds">'</span>archive<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>SidebarWidget@archive<span class="pl-pds">'</span></span>)</span>
+<span class="pl-s2"></span>
+<span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>group(<span class="pl-s1"><span class="pl-pds">'</span>sidebar<span class="pl-pds">'</span></span>, <span class="pl-s3">array</span>(<span class="pl-s1"><span class="pl-pds">'</span>calendar<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>archive<span class="pl-pds">'</span></span>));</span></pre></div>
+
+<p>To call a group of widgets is the same as calling the widget.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>sidebar();</span></pre></div>
+
+<p>If you want to send parameters to the widget that is in the group, you can call it like this.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s3">Widget</span><span class="pl-k">::</span>sidebar(</span>
+<span class="pl-s2">    <span class="pl-s3">array</span>(<span class="pl-s1"><span class="pl-pds">'</span>your-first-param<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>your-second-param<span class="pl-pds">'</span></span>),</span>
+<span class="pl-s2">    <span class="pl-s3">array</span>(<span class="pl-s1"><span class="pl-pds">'</span>first-param-for-second-widget<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>the-second<span class="pl-pds">'</span></span>)</span>
+<span class="pl-s2">);</span></pre></div>
+
+<p>On view you can call a group of widgets is same as calling the widget.</p>
+
+<pre><code>@sidebar()
+
+@sidebar(array('first-param'), array('first-param-for-second-widget'))
+</code></pre>
+
+<h3>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h3>
+
+<p>This package is open-sourced software licensed under the <a href="http://opensource.org/licenses/MIT">MIT license</a></p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/gravitano/widget/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/gravitano/widget/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/gravitano/widget"></a> is maintained by <a href="https://github.com/gravitano">gravitano</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
