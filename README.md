@@ -4,6 +4,13 @@ Laravel Menus
 [![Build Status](https://travis-ci.org/pingpong-labs/menus.svg)](https://travis-ci.org/pingpong-labs/menus)
 [![Latest Stable Version](https://poser.pugx.org/pingpong/menus/v/stable.svg)](https://packagist.org/packages/pingpong/menus) [![Total Downloads](https://poser.pugx.org/pingpong/menus/downloads.svg)](https://packagist.org/packages/pingpong/menus) [![Latest Unstable Version](https://poser.pugx.org/pingpong/menus/v/unstable.svg)](https://packagist.org/packages/pingpong/menus) [![License](https://poser.pugx.org/pingpong/menus/license.svg)](https://packagist.org/packages/pingpong/menus)
 
+### Version Compability
+
+ Laravel  | OAuth Server | PHP 
+:---------|:-------------|:----
+ 4.x      | 1.x          |>= 5.3
+ 5.0.x    | 2.*@dev      |>= 5.3
+ 
 ### Installation
 
 First, open your `composer.json` file and add new package.
