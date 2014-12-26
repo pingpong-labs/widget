@@ -6,11 +6,11 @@ Laravel Menus
 
 ### Version Compability
 
- Laravel  | OAuth Server | PHP 
-:---------|:-------------|:----
- 4.x      | 1.x          |>= 5.3
- 5.0.x    | 2.*@dev      |>= 5.3
- 
+ Laravel  | Pingpong Menus | PHP 
+:---------|:---------------|:----
+ 4.x      | 1.x            |>= 5.3
+ 5.0.x    | 2.*@dev        |>= 5.3
+
 ### Installation
 
 First, open your `composer.json` file and add new package.
