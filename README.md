@@ -16,7 +16,7 @@ Simple Widget System for Laravel Framework
 Open your composer.json file and add the new required package.
 
 ```
-    "pingpong/widget" : "1.0.*"
+    "pingpong/widget" : "1.*"
 ```
 
 Next, open your terminal and run `composer update`.
