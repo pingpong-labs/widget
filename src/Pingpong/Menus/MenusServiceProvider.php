@@ -29,7 +29,7 @@ class MenusServiceProvider extends ServiceProvider {
 	 */
 	public function requireMenusFile()
 	{
-		if(file_exists($file = app_path('menus.php')))
+		if(file_exists($file = app_path('config.php')))
 		{
 			require $file;
 		}
