@@ -54,6 +54,21 @@ class Widget {
 	}
 
 	/**
+	 * Register widget using a specified handler class.
+	 * 
+	 * @param  string $subscriber
+	 * @return void
+	 */
+	public function subscribe($subscriber)
+	{
+		list($className, $method) = Str::parseCallback($subscriber, 'subscribe');
+
+		$instance = $this->container->make($className);
+
+		call_user_func_array([$instance, $method], [$this]);
+	}
+
+	/**
 	 * Register blade syntax for a specific widget.
 	 * 
 	 * @param  string $name 
