@@ -10,9 +10,12 @@
     }
   ],
   "require": {
-    "illuminate/support": "~4|~5",
-    "illuminate/config": "~4|~5",
-    "illuminate/view": "~4|~5"
+    "illuminate/support": "~4",
+    "illuminate/config": "~4",
+    "illuminate/view": "~4",
+    "illuminate/container": "~4",
+    "illuminate/html": "~4",
+    "illuminate/routing": "~4"
   },
   "require-dev": {
     "phpunit/phpunit": "~4",
@@ -20,7 +23,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Pingpong\\Menus\\": "src/Pingpong"
+      "Pingpong\\": "src/Pingpong"
     }
   }
 }
