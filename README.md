@@ -58,7 +58,7 @@ class WidgetSubscriber {
 
 You can also specified which method to handle subscriber of widget.
 
-```
+```php
 Widget::subscribe('WidgetSubscriber@handle');
 
 class WidgetSubscriber {
