@@ -2,7 +2,7 @@
  
 use Illuminate\Support\Facades\Facade;
  
-class Widget extends Facade {
+class WidgetFacade extends Facade {
  
   /**
    * Get the registered name of the component.
