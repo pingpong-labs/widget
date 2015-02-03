@@ -11,11 +11,11 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "illuminate/support": "~4|~5",
-        "illuminate/container": "~4|~5",
-        "illuminate/view": "~4|~5",
-        "illuminate/html": "~4|~5",
-        "illuminate/routing": "~4|~5"
+        "illuminate/support": "~4",
+        "illuminate/container": "~4",
+        "illuminate/view": "~4",
+        "illuminate/html": "~4",
+        "illuminate/routing": "~4"
     },
     "require-dev": {
         "mockery/mockery": "~0.9",
