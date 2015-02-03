@@ -9,6 +9,6 @@ class Widget extends Facade {
    *
    * @return string
    */
-  protected static function getFacadeAccessor() { return 'pingpong.widget'; }
+  protected static function getFacadeAccessor() { return 'widget'; }
  
 }

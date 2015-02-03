@@ -30,7 +30,7 @@ class WidgetServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['pingpong.widget'] = $this->app->share(function($app)
+		$this->app['widget'] = $this->app->share(function($app)
 		{
 			$blade = $app['view']->getEngineResolver()->resolve('blade')->getCompiler();
 
@@ -55,7 +55,7 @@ class WidgetServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('pingpong.widget');
+		return array('widget');
 	}
 
 }
