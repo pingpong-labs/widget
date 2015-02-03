@@ -2,7 +2,6 @@
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Pingpong\Widget\WidgetException as Exception;
 
 class WidgetServiceProvider extends ServiceProvider {
 
