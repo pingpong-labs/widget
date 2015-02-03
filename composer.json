@@ -1,0 +1,26 @@
+{
+  "name": "pingpong/sky",
+  "description": "Pingpong Sky",
+  "minimum-stability": "dev",
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Pingpong Labs",
+      "email": "pingpong.labs@gmail.com"
+    }
+  ],
+  "require": {
+    "illuminate/support": "~4|~5",
+    "illuminate/config": "~4|~5",
+    "illuminate/view": "~4|~5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4",
+    "mockery/mockery": "0.9.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pingpong\\Menus\\": "src/Pingpong"
+    }
+  }
+}
