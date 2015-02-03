@@ -81,7 +81,33 @@ class WidgetTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $actual);
 	}
 
+	public function testSubscribeWidget()
+	{
+		$this->blade->shouldReceive('extend')->times(3);
+		$this->widget->subscribe('WidgetSubscriber');
+
+		$this->assertEquals('foo', $this->widget->foo());
+		$this->assertEquals('bar', $this->widget->bar());
+		$this->assertEquals('baz', $this->widget->baz());
+	}
+
 } 
+
+class WidgetSubscriber {
+
+	public function subscribe($widget)
+	{
+		$widget->register('foo', __CLASS__ .'@foo');
+		$widget->register('bar', __CLASS__ .'@bar');
+		$widget->register('baz', __CLASS__ .'@baz');
+	}
+
+	public function __call($method, $args)
+	{
+		return $method;
+	}
+	
+}
 
 class TagCreator {
 	

@@ -35,6 +35,46 @@ And add facade in the same file
 
 Done.
 
+### What's New!
+
+Subscribe widget: It's a new way to register widget using a specified class. For example:
+
+```php
+Widget::subscribe('WidgetSubscriber');
+
+class WidgetSubscriber {
+
+	public function subscribe($widget)
+	{
+		$widget->register('image', __CLASS__ .'@image');
+	}
+
+	public function image()
+	{
+		return 'Your handler here';
+	}
+}
+```
+
+You can also specified which method to handle subscriber of widget.
+
+```
+Widget::subscribe('WidgetSubscriber@handle');
+
+class WidgetSubscriber {
+
+	public function handle($widget)
+	{
+		$widget->register('image', __CLASS__ .'@image');
+	}
+
+	public function image()
+	{
+		return 'Your handler here';
+	}
+}
+```
+
 ### Registering A Widget
 
 By default you can register a widget in `app/widgets.php`, that file will autoload automatically.
