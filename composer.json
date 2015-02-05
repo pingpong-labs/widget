@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Pingpong\\Widget\\": "src/Pingpong/Widget"
+            "Pingpong\\Widget\\": ""
         }
     },
     "minimum-stability": "stable"
