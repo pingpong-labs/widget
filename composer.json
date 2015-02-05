@@ -15,11 +15,11 @@
   ],
   "require": {
     "php": ">=5.3.0",
-    "illuminate/support": "~4",
-    "illuminate/container": "~4",
-    "illuminate/view": "~4",
-    "illuminate/html": "~4",
-    "illuminate/routing": "~4"
+    "illuminate/support": "~5",
+    "illuminate/container": "~5",
+    "illuminate/view": "~5",
+    "illuminate/html": "~5",
+    "illuminate/routing": "~5"
   },
   "require-dev": {
     "mockery/mockery": "~0.9",
@@ -27,7 +27,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Pingpong\\Widget\\": ""
+      "Pingpong\\Widget\\": "src/Pingpong/Widget"
     }
   },
   "minimum-stability": "stable"
