@@ -26,5 +26,5 @@
             "Pingpong\\Widget\\": ""
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }
