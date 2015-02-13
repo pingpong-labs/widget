@@ -1,4 +1,4 @@
-<?php namespace Pingpong\Widget\Facades;
+<?php namespace Pingpong\Widget;
 
 use Illuminate\Support\Facades\Facade;
 
