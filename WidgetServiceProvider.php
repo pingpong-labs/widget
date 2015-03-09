@@ -29,7 +29,7 @@ class WidgetServiceProvider extends ServiceProvider {
         $this->app->booting(function ()
         {
             $loader = AliasLoader::getInstance();
-            $loader->alias('Widget', 'Pingpong\Widget\Facades\Widget');
+            $loader->alias('Widget', 'Pingpong\Widget\WidgetFacade');
 
             $file = app_path('widgets.php');
 
