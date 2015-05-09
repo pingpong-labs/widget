@@ -118,7 +118,10 @@ class Widget {
      */
     public function get($name, array $parameters = array())
     {
-        if ($this->hasGroup($name)) return $this->callGroup($name, $parameters);
+        if ($this->hasGroup($name))
+        {
+            return $this->callGroup($name, $parameters);
+        }
 
         if ($this->has($name))
         {
@@ -126,6 +129,7 @@ class Widget {
 
             return $this->getCallback($callback, $parameters);
         }
+
         return null;
     }
 
@@ -235,7 +239,10 @@ class Widget {
      */
     public function callGroup($name, $parameters = array())
     {
-        if ( ! $this->hasGroup($name)) return null;
+        if ( ! $this->hasGroup($name))
+        {
+            return null;
+        }
 
         $result = '';
 

@@ -33,7 +33,10 @@ class WidgetServiceProvider extends ServiceProvider {
 
             $file = app_path('widgets.php');
 
-            if (file_exists($file)) include $file;
+            if (file_exists($file))
+            {
+                include $file;
+            }
         });
     }
 
