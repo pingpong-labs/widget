@@ -1,85 +1,85 @@
 <?php namespace Pingpong\Widget;
 
 use Closure;
-use Illuminate\Support\Str;
 use Illuminate\Container\Container;
+use Illuminate\Support\Str;
 use Illuminate\View\Compilers\BladeCompiler;
 
 class Widget {
-	
-	/**
-	 * @var BladeCompiler
-	 */
-	protected $blade;
 
-	/**
-	 * @var Container
-	 */
-	protected $container;
+    /**
+     * @var BladeCompiler
+     */
+    protected $blade;
 
-	/**
-	 * @var array
-	 */
-	protected $groups = array();
+    /**
+     * @var Container
+     */
+    protected $container;
 
-	/**
-	 * @var array
-	 */
-	protected $widgets = array();
+    /**
+     * @var array
+     */
+    protected $groups = array();
 
-	/**
-	 * The constructor.
-	 * 
-	 * @param BladeCompiler $blade     
-	 * @param Container     $container 
-	 */
-	public function __construct(BladeCompiler $blade, Container $container)
-	{
-		$this->blade = $blade;
-		$this->container = $container;
-	}	
+    /**
+     * @var array
+     */
+    protected $widgets = array();
 
-	/**
-	 * Register new widget.
-	 * 
-	 * @param  string $name     
-	 * @param  string|callable $callback 
-	 * @return void           
-	 */
-	public function register($name, $callback)
-	{
-		$this->widgets[$name] = $callback;
-
-		$this->registerBlade($name);
-	}
-
-	/**
-	 * Register widget using a specified handler class.
-	 * 
-	 * @param  string $subscriber
-	 * @return void
-	 */
-	public function subscribe($subscriber)
-	{
-		list($className, $method) = Str::parseCallback($subscriber, 'subscribe');
-
-		$instance = $this->container->make($className);
-
-		call_user_func_array([$instance, $method], [$this]);
-	}
-
-	/**
-	 * Register blade syntax for a specific widget.
-	 * 
-	 * @param  string $name 
-	 * @return void       
-	 */
-	protected function registerBlade($name)
+    /**
+     * The constructor.
+     *
+     * @param BladeCompiler $blade
+     * @param Container $container
+     */
+    public function __construct(BladeCompiler $blade, Container $container)
     {
-        $this->blade->extend(function($view, $compiler) use ($name)
+        $this->blade = $blade;
+        $this->container = $container;
+    }
+
+    /**
+     * Register new widget.
+     *
+     * @param  string $name
+     * @param  string|callable $callback
+     * @return void
+     */
+    public function register($name, $callback)
+    {
+        $this->widgets[$name] = $callback;
+
+        $this->registerBlade($name);
+    }
+
+    /**
+     * Register widget using a specified handler class.
+     *
+     * @param  string $subscriber
+     * @return void
+     */
+    public function subscribe($subscriber)
+    {
+        list($className, $method) = Str::parseCallback($subscriber, 'subscribe');
+
+        $instance = $this->container->make($className);
+
+        call_user_func_array([$instance, $method], [$this]);
+    }
+
+    /**
+     * Register blade syntax for a specific widget.
+     *
+     * @param  string $name
+     * @return void
+     */
+    protected function registerBlade($name)
+    {
+        $this->blade->extend(function ($view, $compiler) use ($name)
         {
             $pattern = $compiler->createMatcher($name);
-    
+
             $replace = '$1<?php echo Widget::' . $name . '$2; ?>';
 
             return preg_replace($pattern, $replace, $view);
@@ -88,9 +88,21 @@ class Widget {
 
     /**
      * Determine whether a widget there or not.
-     * 
-     * @param  string  $name 
-     * @return boolean       
+     *
+     * @param  string $name
+     * @return boolean
+     */
+    public function has($name)
+    {
+        return array_key_exists($name, $this->widgets);
+    }
+
+    /**
+     * Calling a specific widget.
+     *
+     * @param  string $name
+     * @param  array $parameters
+     * @return mixed
      */
     public function call($name, array $parameters = array())
     {
@@ -253,5 +265,5 @@ class Widget {
     {
         return $this->get($method, $parameters);
     }
-    
+
 } 
