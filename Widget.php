@@ -92,171 +92,166 @@ class Widget {
      * @param  string  $name 
      * @return boolean       
      */
-	public function has($name)
-	{
-		return array_key_exists($name, $this->widgets);
-	}
+    public function call($name, array $parameters = array())
+    {
+        return $this->get($name, $parameters);
+    }
 
-	/**
-	 * Calling a specific widget.
-	 * 
-	 * @param  string $name       
-	 * @param  array  $parameters 
-	 * @return mixed             
-	 */
-	public function call($name, array $parameters = array())
-	{
-		return $this->get($name, $parameters);
-	}
+    /**
+     * Calling a specific widget.
+     *
+     * @param  string $name
+     * @param  array $parameters
+     * @return mixed
+     */
+    public function get($name, array $parameters = array())
+    {
+        if ($this->hasGroup($name))
+        {
+            return $this->callGroup($name, $parameters);
+        }
 
-	/**
-	 * Calling a specific widget.
-	 * 
-	 * @param  string $name       
-	 * @param  array  $parameters 
-	 * @return mixed             
-	 */
-	public function get($name, array $parameters = array())
-	{
-		if($this->hasGroup($name)) return $this->callGroup($name, $parameters);
+        if ($this->has($name))
+        {
+            $callback = $this->widgets[$name];
 
-		if($this->has($name))
-		{
-			$callback = $this->widgets[$name];
-			
-			return $this->getCallback($callback, $parameters);
-		}
-		return null;
-	}
+            return $this->getCallback($callback, $parameters);
+        }
 
-	/**
-	 * Get a callback from specific widget.
-	 * 
-	 * @param  mixed $callback   
-	 * @param  array $parameters 
-	 * @return mixed             
-	 */
-	protected function getCallback($callback, array $parameters)
-	{
-		if($callback instanceof Closure)
-		{
-			return $this->createCallableCallback($callback, $parameters);
-		}
-		elseif(is_string($callback))
-		{
-			return $this->createStringCallback($callback, $parameters);
-		}
-		else
-		{
-			return null;
-		}
-	}
+        return null;
+    }
 
-	/**
-	 * Get a result from string callback.
-	 * 
-	 * @param  string $callback   
-	 * @param  array $parameters 
-	 * @return mixed             
-	 */
-	protected function createStringCallback($callback, array $parameters)
-	{
-		if(function_exists($callback))
-		{
-			return $this->createCallableCallback($callback, $parameters);
-		}
-		else
-		{
-			return $this->createClassesCallback($callback, $parameters);
-		}
-	}
+    /**
+     * Get a callback from specific widget.
+     *
+     * @param  mixed $callback
+     * @param  array $parameters
+     * @return mixed
+     */
+    protected function getCallback($callback, array $parameters)
+    {
+        if ($callback instanceof Closure)
+        {
+            return $this->createCallableCallback($callback, $parameters);
+        }
+        elseif (is_string($callback))
+        {
+            return $this->createStringCallback($callback, $parameters);
+        }
+        else
+        {
+            return null;
+        }
+    }
 
-	/**
-	 * Get a result from callable callback.
-	 * 
-	 * @param  callable $callback   
-	 * @param  array $parameters 
-	 * @return mixed             
-	 */
-	protected function createCallableCallback($callback, array $parameters)
-	{	
-		return call_user_func_array($callback, $parameters);
-	}
+    /**
+     * Get a result from string callback.
+     *
+     * @param  string $callback
+     * @param  array $parameters
+     * @return mixed
+     */
+    protected function createStringCallback($callback, array $parameters)
+    {
+        if (function_exists($callback))
+        {
+            return $this->createCallableCallback($callback, $parameters);
+        }
+        else
+        {
+            return $this->createClassesCallback($callback, $parameters);
+        }
+    }
 
-	/**
-	 * Get a result from classes callback.
-	 * 
-	 * @param  string $callback   
-	 * @param  array $parameters 
-	 * @return mixed             
-	 */
-	protected function createClassesCallback($callback, array $parameters)
-	{
-		list($className, $method) = Str::parseCallback($callback, 'register');
-	
-		$instance = $this->container->make($className);
+    /**
+     * Get a result from callable callback.
+     *
+     * @param  callable $callback
+     * @param  array $parameters
+     * @return mixed
+     */
+    protected function createCallableCallback($callback, array $parameters)
+    {
+        return call_user_func_array($callback, $parameters);
+    }
 
-		$callable = array($instance, $method);
+    /**
+     * Get a result from classes callback.
+     *
+     * @param  string $callback
+     * @param  array $parameters
+     * @return mixed
+     */
+    protected function createClassesCallback($callback, array $parameters)
+    {
+        list($className, $method) = Str::parseCallback($callback, 'register');
 
-		return $this->createCallableCallback($callable, $parameters);
-	}
+        $instance = $this->container->make($className);
 
-	/**
-	 * Group some widgets.
-	 * 
-	 * @param  string $name    
-	 * @param  array  $widgets 
-	 * @return void          
-	 */
-	public function group($name, array $widgets)
-	{
-		$this->groups[$name] = $widgets;
+        $callable = array($instance, $method);
 
-		$this->registerBlade($name);
-	}
+        return $this->createCallableCallback($callable, $parameters);
+    }
 
-	/**
-	 * Determine whether a group of widgets there or not.
-	 * 
-	 * @param  string  $name 
-	 * @return boolean       
-	 */
-	public function hasGroup($name)
-	{
-		return array_key_exists($name, $this->groups);
-	}
+    /**
+     * Group some widgets.
+     *
+     * @param  string $name
+     * @param  array $widgets
+     * @return void
+     */
+    public function group($name, array $widgets)
+    {
+        $this->groups[$name] = $widgets;
 
-	/**
-	 * Call a specific group of widgets.
-	 * 
-	 * @param  string $name       
-	 * @param  array  $parameters 
-	 * @return string             
-	 */
-	public function callGroup($name, $parameters = array())
-	{
-		if( ! $this->hasGroup($name)) return null;
+        $this->registerBlade($name);
+    }
 
-		$result = '';
+    /**
+     * Determine whether a group of widgets there or not.
+     *
+     * @param  string $name
+     * @return boolean
+     */
+    public function hasGroup($name)
+    {
+        return array_key_exists($name, $this->groups);
+    }
 
-		foreach ($this->groups[$name] as $key => $widget)
-		{
-			$result .= $this->get($widget, array_get($parameters, $key, array()));	
-		}
+    /**
+     * Call a specific group of widgets.
+     *
+     * @param  string $name
+     * @param  array $parameters
+     * @return string
+     */
+    public function callGroup($name, $parameters = array())
+    {
+        if ( ! $this->hasGroup($name))
+        {
+            return null;
+        }
 
-		return $result;
-	}
+        $result = '';
 
-	/**
-	 * Handle call to the class.
-	 * 
-	 * @param  string $method     
-	 * @param  array  $parameters 
-	 * @return mixed             
-	 */
-	public function __call($method, $parameters = array())
-	{
-		return $this->get($method, $parameters);
-	}
-	
+        foreach ($this->groups[$name] as $key => $widget)
+        {
+            $result .= $this->get($widget, array_get($parameters, $key, array()));
+        }
+
+        return $result;
+    }
+
+    /**
+     * Handle call to the class.
+     *
+     * @param  string $method
+     * @param  array $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters = array())
+    {
+        return $this->get($method, $parameters);
+    }
+    
 } 
