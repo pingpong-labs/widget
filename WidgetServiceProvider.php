@@ -3,7 +3,8 @@
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
-class WidgetServiceProvider extends ServiceProvider {
+class WidgetServiceProvider extends ServiceProvider
+{
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -19,22 +20,19 @@ class WidgetServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app['widget'] = $this->app->share(function ($app)
-        {
+        $this->app['widget'] = $this->app->share(function ($app) {
             $blade = $app['view']->getEngineResolver()->resolve('blade')->getCompiler();
 
             return new Widget($blade, $app);
         });
 
-        $this->app->booting(function ()
-        {
+        $this->app->booting(function () {
             $loader = AliasLoader::getInstance();
             $loader->alias('Widget', 'Pingpong\Widget\WidgetFacade');
 
             $file = app_path('widgets.php');
 
-            if (file_exists($file))
-            {
+            if (file_exists($file)) {
                 include $file;
             }
         });
@@ -49,5 +47,4 @@ class WidgetServiceProvider extends ServiceProvider {
     {
         return array('widget');
     }
-
 }

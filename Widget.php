@@ -5,7 +5,8 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 use Illuminate\View\Compilers\BladeCompiler;
 
-class Widget {
+class Widget
+{
 
     /**
      * @var BladeCompiler
@@ -76,8 +77,7 @@ class Widget {
      */
     protected function registerBlade($name)
     {
-        $this->blade->extend(function ($view, $compiler) use ($name)
-        {
+        $this->blade->extend(function ($view, $compiler) use ($name) {
             $pattern = $compiler->createMatcher($name);
 
             $replace = '$1<?php echo Widget::' . $name . '$2; ?>';
@@ -118,13 +118,11 @@ class Widget {
      */
     public function get($name, array $parameters = array())
     {
-        if ($this->hasGroup($name))
-        {
+        if ($this->hasGroup($name)) {
             return $this->callGroup($name, $parameters);
         }
 
-        if ($this->has($name))
-        {
+        if ($this->has($name)) {
             $callback = $this->widgets[$name];
 
             return $this->getCallback($callback, $parameters);
@@ -142,16 +140,11 @@ class Widget {
      */
     protected function getCallback($callback, array $parameters)
     {
-        if ($callback instanceof Closure)
-        {
+        if ($callback instanceof Closure) {
             return $this->createCallableCallback($callback, $parameters);
-        }
-        elseif (is_string($callback))
-        {
+        } elseif (is_string($callback)) {
             return $this->createStringCallback($callback, $parameters);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -165,12 +158,9 @@ class Widget {
      */
     protected function createStringCallback($callback, array $parameters)
     {
-        if (function_exists($callback))
-        {
+        if (function_exists($callback)) {
             return $this->createCallableCallback($callback, $parameters);
-        }
-        else
-        {
+        } else {
             return $this->createClassesCallback($callback, $parameters);
         }
     }
@@ -239,15 +229,13 @@ class Widget {
      */
     public function callGroup($name, $parameters = array())
     {
-        if ( ! $this->hasGroup($name))
-        {
+        if (! $this->hasGroup($name)) {
             return null;
         }
 
         $result = '';
 
-        foreach ($this->groups[$name] as $key => $widget)
-        {
+        foreach ($this->groups[$name] as $key => $widget) {
             $result .= $this->get($widget, array_get($parameters, $key, array()));
         }
 
@@ -265,5 +253,4 @@ class Widget {
     {
         return $this->get($method, $parameters);
     }
-
-} 
+}
