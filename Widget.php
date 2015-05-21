@@ -127,6 +127,7 @@ class Widget
 
             return $this->getCallback($callback, $parameters);
         }
+
         return null;
     }
 
