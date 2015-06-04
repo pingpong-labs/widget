@@ -246,7 +246,7 @@ class Widget
 
     /**
      * Reorder widgets.
-     * 
+     *
      * @param  array $widgets
      * @return array
      */
@@ -257,19 +257,18 @@ class Widget
         foreach ($widgets as $key => $widget) {
             if (is_array($widget)) {
                 $formatted[] = [
-                    'name' => array_get($widget, 0), 
-                    'order' => array_get($widget, 1), 
+                    'name' => array_get($widget, 0),
+                    'order' => array_get($widget, 1),
                 ];
             } else {
                 $formatted[] = [
-                    'name' => $widget, 
-                    'order' => $key, 
+                    'name' => $widget,
+                    'order' => $key,
                 ];
             }
         }
 
-        return collect($formatted)->sortBy(function ($widget)
-        {
+        return collect($formatted)->sortBy(function ($widget) {
             return $widget['order'];
         })->all();
     }
