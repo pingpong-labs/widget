@@ -1,11 +1,12 @@
-<?php namespace Pingpong\Widget;
+<?php
+
+namespace Pingpong\Widget;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class WidgetServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -15,8 +16,6 @@ class WidgetServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
