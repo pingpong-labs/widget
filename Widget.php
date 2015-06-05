@@ -1,4 +1,6 @@
-<?php namespace Pingpong\Widget;
+<?php
+
+namespace Pingpong\Widget;
 
 use Closure;
 use Illuminate\Container\Container;
@@ -7,7 +9,6 @@ use Illuminate\View\Compilers\BladeCompiler;
 
 class Widget
 {
-
     /**
      * @var BladeCompiler
      */
@@ -32,7 +33,7 @@ class Widget
      * The constructor.
      *
      * @param BladeCompiler $blade
-     * @param Container $container
+     * @param Container     $container
      */
     public function __construct(BladeCompiler $blade, Container $container)
     {
@@ -43,9 +44,8 @@ class Widget
     /**
      * Register new widget.
      *
-     * @param  string $name
-     * @param  string|callable $callback
-     * @return void
+     * @param string          $name
+     * @param string|callable $callback
      */
     public function register($name, $callback)
     {
@@ -57,8 +57,7 @@ class Widget
     /**
      * Register widget using a specified handler class.
      *
-     * @param  string $subscriber
-     * @return void
+     * @param string $subscriber
      */
     public function subscribe($subscriber)
     {
@@ -72,15 +71,14 @@ class Widget
     /**
      * Register blade syntax for a specific widget.
      *
-     * @param  string $name
-     * @return void
+     * @param string $name
      */
     protected function registerBlade($name)
     {
         $this->blade->extend(function ($view, $compiler) use ($name) {
             $pattern = $compiler->createMatcher($name);
 
-            $replace = '$1<?php echo Widget::' . $name . '$2; ?>';
+            $replace = '$1<?php echo Widget::'.$name.'$2; ?>';
 
             return preg_replace($pattern, $replace, $view);
         });
@@ -89,8 +87,9 @@ class Widget
     /**
      * Determine whether a widget there or not.
      *
-     * @param  string $name
-     * @return boolean
+     * @param string $name
+     *
+     * @return bool
      */
     public function has($name)
     {
@@ -100,8 +99,9 @@ class Widget
     /**
      * Calling a specific widget.
      *
-     * @param  string $name
-     * @param  array $parameters
+     * @param string $name
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public function call($name, array $parameters = array())
@@ -112,8 +112,9 @@ class Widget
     /**
      * Calling a specific widget.
      *
-     * @param  string $name
-     * @param  array $parameters
+     * @param string $name
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public function get($name, array $parameters = array())
@@ -128,14 +129,15 @@ class Widget
             return $this->getCallback($callback, $parameters);
         }
 
-        return null;
+        return;
     }
 
     /**
      * Get a callback from specific widget.
      *
-     * @param  mixed $callback
-     * @param  array $parameters
+     * @param mixed $callback
+     * @param array $parameters
+     *
      * @return mixed
      */
     protected function getCallback($callback, array $parameters)
@@ -145,15 +147,16 @@ class Widget
         } elseif (is_string($callback)) {
             return $this->createStringCallback($callback, $parameters);
         } else {
-            return null;
+            return;
         }
     }
 
     /**
      * Get a result from string callback.
      *
-     * @param  string $callback
-     * @param  array $parameters
+     * @param string $callback
+     * @param array  $parameters
+     *
      * @return mixed
      */
     protected function createStringCallback($callback, array $parameters)
@@ -168,8 +171,9 @@ class Widget
     /**
      * Get a result from callable callback.
      *
-     * @param  callable $callback
-     * @param  array $parameters
+     * @param callable $callback
+     * @param array    $parameters
+     *
      * @return mixed
      */
     protected function createCallableCallback($callback, array $parameters)
@@ -180,8 +184,9 @@ class Widget
     /**
      * Get a result from classes callback.
      *
-     * @param  string $callback
-     * @param  array $parameters
+     * @param string $callback
+     * @param array  $parameters
+     *
      * @return mixed
      */
     protected function createClassesCallback($callback, array $parameters)
@@ -198,9 +203,8 @@ class Widget
     /**
      * Group some widgets.
      *
-     * @param  string $name
-     * @param  array $widgets
-     * @return void
+     * @param string $name
+     * @param array  $widgets
      */
     public function group($name, array $widgets)
     {
@@ -212,8 +216,9 @@ class Widget
     /**
      * Determine whether a group of widgets there or not.
      *
-     * @param  string $name
-     * @return boolean
+     * @param string $name
+     *
+     * @return bool
      */
     public function hasGroup($name)
     {
@@ -223,14 +228,15 @@ class Widget
     /**
      * Call a specific group of widgets.
      *
-     * @param  string $name
-     * @param  array $parameters
+     * @param string $name
+     * @param array  $parameters
+     *
      * @return string
      */
     public function callGroup($name, $parameters = array())
     {
-        if (! $this->hasGroup($name)) {
-            return null;
+        if (!$this->hasGroup($name)) {
+            return;
         }
 
         $result = '';
@@ -247,7 +253,8 @@ class Widget
     /**
      * Reorder widgets.
      *
-     * @param  array $widgets
+     * @param array $widgets
+     *
      * @return array
      */
     protected function reorderWidgets($widgets)
@@ -276,8 +283,9 @@ class Widget
     /**
      * Handle call to the class.
      *
-     * @param  string $method
-     * @param  array $parameters
+     * @param string $method
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public function __call($method, $parameters = array())
