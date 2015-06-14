@@ -15,11 +15,11 @@
   ],
   "require": {
     "php": ">=5.3.0",
-    "illuminate/support": "5.1.*@dev",
-    "illuminate/container": "5.1.*@dev",
-    "illuminate/view": "5.1.*@dev",
-    "illuminate/html": "5.1.*@dev",
-    "illuminate/routing": "5.1.*@dev"
+    "illuminate/support": "5.1.*",
+    "illuminate/container": "5.1.*",
+    "illuminate/view": "5.1.*",
+    "illuminate/html": "5.1.*",
+    "illuminate/routing": "5.1.*"
   },
   "require-dev": {
     "mockery/mockery": "~0.9",
