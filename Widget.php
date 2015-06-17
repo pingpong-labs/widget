@@ -76,12 +76,23 @@ class Widget
     protected function registerBlade($name)
     {
         $this->blade->extend(function ($view, $compiler) use ($name) {
-            $pattern = $compiler->createMatcher($name);
+            $pattern = $this->createMatcher($name);
 
             $replace = '$1<?php echo Widget::'.$name.'$2; ?>';
 
             return preg_replace($pattern, $replace, $view);
         });
+    }
+
+    /**
+     * Get the regular expression for a generic Blade function.
+     *
+     * @param  string  $function
+     * @return string
+     */
+    protected function createMatcher($function)
+    {
+        return '/(?<!\w)(\s*)@'.$function.'(\s*\(.*\))/';
     }
 
     /**
