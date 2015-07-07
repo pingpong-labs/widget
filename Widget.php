@@ -293,7 +293,7 @@ class Widget
      * Get a collection of a group of widgets.
      *
      * @param  string $name
-     * @return Illuminate\Support\Collection
+     * @return \Illuminate\Support\Collection|null
      */
     public function collectGroup($name)
     {
