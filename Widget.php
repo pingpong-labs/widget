@@ -225,6 +225,21 @@ class Widget
     }
 
     /**
+     * Group some widgets, merging if previously set.
+     *
+     * @param string $name
+     * @param array  $newWidgets
+     */
+    public function mergeGroup($name, array $newWidgets)
+    {
+        $widgets = $this->hasGroup($name) ? $this->groups[$name] : [];
+
+        $this->groups[$name] = array_merge($widgets, $newWidgets);
+
+        $this->registerBlade($name);
+    }
+
+    /**
      * Determine whether a group of widgets there or not.
      *
      * @param string $name
@@ -257,6 +272,36 @@ class Widget
         }
 
         return $result;
+    }
+
+    /**
+     * Get a group of widgets.
+     *
+     * @param  string $name
+     * @return array|null
+     */
+    public function getGroup($name)
+    {
+        if (!$this->hasGroup($name)) {
+            return;
+        }
+
+        return $this->groups[$name];
+    }
+
+    /**
+     * Get a collection of a group of widgets.
+     *
+     * @param  string $name
+     * @return \Illuminate\Support\Collection|null
+     */
+    public function collectGroup($name)
+    {
+        if (!$this->hasGroup($name)) {
+            return;
+        }
+
+        return collect($this->groups[$name]);
     }
 
     /**
