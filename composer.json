@@ -14,11 +14,11 @@
     }
   ],
   "require": {
-    "php": ">=5.3.0",
-    "illuminate/support": "5.1.*",
-    "illuminate/container": "5.1.*",
-    "illuminate/view": "5.1.*",
-    "illuminate/routing": "5.1.*"
+    "php": ">=5.5.9",
+    "illuminate/support": "5.2.*",
+    "illuminate/container": "5.2.*",
+    "illuminate/view": "5.2.*",
+    "illuminate/routing": "5.2.*"
   },
   "require-dev": {
     "mockery/mockery": "~0.9",
@@ -29,5 +29,5 @@
       "Pingpong\\Widget\\": ""
     }
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "stable"
 }
